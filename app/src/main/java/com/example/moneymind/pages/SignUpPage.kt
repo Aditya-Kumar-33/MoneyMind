@@ -1,14 +1,31 @@
-package com.example.moneymind
+package com.example.moneymind.pages
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -17,30 +34,41 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.moneymind.ui.theme.MoneyMindTheme
+import androidx.navigation.NavController
+import com.example.moneymind.AuthState
+import com.example.moneymind.AuthViewModel
 
-class InputFieldActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MoneyMindTheme {
-                InputFieldPage()
+@Composable
+fun SignUp(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+    var fullName by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
+
+    val authState = authViewModel.authState.observeAsState()
+    // Add local context
+    val localContext = LocalContext.current
+
+    LaunchedEffect(authState.value) {
+        when (authState.value) {
+            is AuthState.Authenticated -> {
+                navController.navigate("savings")
             }
+            is AuthState.Error -> {
+                // Use localContext instead of undefined context
+                val errorState = authState.value as AuthState.Error
+                Toast.makeText(localContext, errorState.message, Toast.LENGTH_SHORT).show()
+            }
+            else -> Unit
         }
     }
-}
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun InputFieldPage() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
         // Background with gradient
         Box(
             modifier = Modifier
@@ -81,24 +109,22 @@ fun InputFieldPage() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .fillMaxHeight()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 // Material3 colors for outlined text field
                 val borderColor = Color(0xFF323F36)
                 val focusedBorderColor = Color(0xFF81A38A)
-
-                var fullName by remember { mutableStateOf("") }
-                var email by remember { mutableStateOf("") }
-                var password by remember { mutableStateOf("") }
-                var phoneNumber by remember { mutableStateOf("") }
-                var country by remember { mutableStateOf("") }
-                var currency by remember { mutableStateOf("") }
+                val labelColor = Color(0xBBBBBBBB)
+                val focusedLabelColor = Color.White
 
                 // Input boxes with Material3 styling
                 OutlinedTextField(
                     value = fullName,
                     onValueChange = { fullName = it },
-                    placeholder = { Text("User's full name") },
+                    label = { Text("Full name") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -107,8 +133,8 @@ fun InputFieldPage() {
                         focusedBorderColor = focusedBorderColor,
                         unfocusedTextColor = Color.White,
                         focusedTextColor = Color.White,
-                        unfocusedPlaceholderColor = Color(0xBBBBBBBB),
-                        focusedPlaceholderColor = Color(0xBBBBBBBB)
+                        unfocusedLabelColor = labelColor,
+                        focusedLabelColor = focusedLabelColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 )
@@ -116,7 +142,7 @@ fun InputFieldPage() {
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    placeholder = { Text("Email Address") },
+                    label = { Text("Email") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -125,8 +151,8 @@ fun InputFieldPage() {
                         focusedBorderColor = focusedBorderColor,
                         unfocusedTextColor = Color.White,
                         focusedTextColor = Color.White,
-                        unfocusedPlaceholderColor = Color(0xBBBBBBBB),
-                        focusedPlaceholderColor = Color(0xBBBBBBBB)
+                        unfocusedLabelColor = labelColor,
+                        focusedLabelColor = focusedLabelColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 )
@@ -134,7 +160,7 @@ fun InputFieldPage() {
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    placeholder = { Text("Password") },
+                    label = { Text("Password") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -143,16 +169,17 @@ fun InputFieldPage() {
                         focusedBorderColor = focusedBorderColor,
                         unfocusedTextColor = Color.White,
                         focusedTextColor = Color.White,
-                        unfocusedPlaceholderColor = Color(0xBBBBBBBB),
-                        focusedPlaceholderColor = Color(0xBBBBBBBB)
+                        unfocusedLabelColor = labelColor,
+                        focusedLabelColor = focusedLabelColor
                     ),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(8.dp),
+                    visualTransformation = PasswordVisualTransformation()
                 )
 
                 OutlinedTextField(
                     value = phoneNumber,
                     onValueChange = { phoneNumber = it },
-                    placeholder = { Text("Phone Number (Optional)") },
+                    label = { Text("Phone Number (Optional)") },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -161,52 +188,11 @@ fun InputFieldPage() {
                         focusedBorderColor = focusedBorderColor,
                         unfocusedTextColor = Color.White,
                         focusedTextColor = Color.White,
-                        unfocusedPlaceholderColor = Color(0xBBBBBBBB),
-                        focusedPlaceholderColor = Color(0xBBBBBBBB)
+                        unfocusedLabelColor = labelColor,
+                        focusedLabelColor = focusedLabelColor
                     ),
                     shape = RoundedCornerShape(8.dp)
                 )
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    OutlinedTextField(
-                        value = country,
-                        onValueChange = { country = it },
-                        placeholder = { Text("Country") },
-                        modifier = Modifier
-                            .weight(1f),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = borderColor,
-                            focusedBorderColor = focusedBorderColor,
-                            unfocusedTextColor = Color.White,
-                            focusedTextColor = Color.White,
-                            unfocusedPlaceholderColor = Color(0xBBBBBBBB),
-                            focusedPlaceholderColor = Color(0xBBBBBBBB)
-                        ),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-
-                    OutlinedTextField(
-                        value = currency,
-                        onValueChange = { currency = it },
-                        placeholder = { Text("Currency") },
-                        modifier = Modifier
-                            .weight(1f),
-                        colors = OutlinedTextFieldDefaults.colors(
-                            unfocusedBorderColor = borderColor,
-                            focusedBorderColor = focusedBorderColor,
-                            unfocusedTextColor = Color.White,
-                            focusedTextColor = Color.White,
-                            unfocusedPlaceholderColor = Color(0xBBBBBBBB),
-                            focusedPlaceholderColor = Color(0xBBBBBBBB)
-                        ),
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                }
             }
         }
 
@@ -217,26 +203,35 @@ fun InputFieldPage() {
                 .padding(bottom = 32.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .height(60.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF81A38A),
-                )
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "Continue", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Button(
+                    onClick = {
+                        authViewModel.signup(email, password)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .height(60.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF81A38A),
+                    )
+                ) {
+                    Text(text = "Create Account", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Already have an account?",
+                    fontSize = 18.sp,
+                    color = Color.White,
+                    modifier = Modifier.clickable {
+                        navController.navigate("login")
+                    }
+                )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun InputFieldPagePreview() {
-    MoneyMindTheme {
-        InputFieldPage()
     }
 }

@@ -1,4 +1,4 @@
-package com.example.moneymind
+package com.example.moneymind.pages
 
 import android.app.DatePickerDialog
 import android.os.Build
@@ -27,23 +27,13 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import com.example.moneymind.AuthViewModel
 import com.example.moneymind.ui.theme.MoneyMindTheme
 
-class SavingsActivity : ComponentActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MoneyMindTheme {
-                SavingPage()
-            }
-        }
-    }
-}
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun SavingPage() {
+fun Savings(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
     val dateFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
     val context = LocalContext.current
@@ -117,14 +107,5 @@ fun SavingPage() {
                 )
             }
         }
-    }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun SavingPagePreview() {
-    MoneyMindTheme {
-        SavingPage()
     }
 }
