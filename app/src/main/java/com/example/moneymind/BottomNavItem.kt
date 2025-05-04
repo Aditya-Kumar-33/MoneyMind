@@ -30,7 +30,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 // Define the navigation items with their routes, icons, and labels
 sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
     object Notes : BottomNavItem("notes", Icons.Default.Description, "Notes")
-    object Savings : BottomNavItem("history", Icons.Default.History, "Savings")
+    object Savings : BottomNavItem("savings", Icons.Default.History, "Savings")
     object Chart : BottomNavItem("chart", Icons.Default.PieChart, "Chart")
     object Profile : BottomNavItem("profile", Icons.Default.AccountCircle, "Profile")
 }

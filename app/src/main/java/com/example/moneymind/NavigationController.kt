@@ -96,7 +96,7 @@ fun NavigationController(modifier: Modifier = Modifier, authViewModel: AuthViewM
                 composable(BottomNavItem.Notes.route) {
                     NotesPage(modifier, navController, authViewModel)
                 }
-                composable(BottomNavItem.History.route) {
+                composable(BottomNavItem.Savings.route) {
                     Savings(modifier, navController, authViewModel)
                 }
                 composable(BottomNavItem.Chart.route) {
