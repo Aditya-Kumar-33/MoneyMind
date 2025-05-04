@@ -10,6 +10,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -49,7 +51,10 @@ fun BottomNavBar(navController: NavController) {
         containerColor = backgroundColor,
         tonalElevation = 0.dp,
         modifier = Modifier
-            .height(64.dp),
+            .height(64.dp)
+            .semantics {
+                contentDescription = "Bottom navigation bar with 4 items"
+            },
         windowInsets = NavigationBarDefaults.windowInsets // ensures icons are centered
     ) {
         bottomNavItems.forEach { item ->
@@ -78,9 +83,12 @@ fun RowScope.AddItem(
     modifier: Modifier = Modifier
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == navItem.route } == true
+    val selectionState = if (selected) "selected" else "not selected"
 
     NavigationBarItem(
-        modifier = modifier,
+        modifier = modifier.semantics {
+            contentDescription = "${navItem.label} tab, $selectionState"
+        },
         icon = {
             Icon(
                 imageVector = navItem.icon,

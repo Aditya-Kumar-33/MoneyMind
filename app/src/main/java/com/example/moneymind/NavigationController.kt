@@ -83,7 +83,9 @@ fun NavigationController(
                         containerColor = Color(0xFF7FBB92),
                         contentColor = Color.White,
                         elevation = FloatingActionButtonDefaults.elevation(8.dp),
-                        modifier = Modifier.size(64.dp).offset(y = 50.dp)
+                        modifier = Modifier.size(64.dp).offset(y = 50.dp).semantics {
+                            contentDescription = "Add new transaction or record"
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Add,

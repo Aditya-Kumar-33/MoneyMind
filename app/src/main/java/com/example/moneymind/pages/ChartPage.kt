@@ -42,6 +42,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,6 +52,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.moneymind.AuthViewModel
 import com.example.moneymind.data.Transaction
+import com.example.moneymind.utils.accessibilityHeading
+import com.example.moneymind.utils.accessibleClickable
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.cos
@@ -180,13 +185,19 @@ fun ChartPage(modifier: Modifier = Modifier, navController: NavController, authV
                         text = "Analytics",
                         color = Color.White,
                         fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.accessibilityHeading()
                     )
 
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = {}) {
+                        IconButton(
+                            onClick = {},
+                            modifier = Modifier.semantics {
+                                contentDescription = "Previous month, currently showing $currentMonth"
+                            }
+                        ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Previous month",
@@ -202,7 +213,12 @@ fun ChartPage(modifier: Modifier = Modifier, navController: NavController, authV
                             modifier = Modifier.padding(horizontal = 8.dp)
                         )
 
-                        IconButton(onClick = {}) {
+                        IconButton(
+                            onClick = {},
+                            modifier = Modifier.semantics {
+                                contentDescription = "Next month, currently showing $currentMonth"
+                            }
+                        ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                                 contentDescription = "Next month",
@@ -222,12 +238,18 @@ fun ChartPage(modifier: Modifier = Modifier, navController: NavController, authV
                         .background(Color(0xFF1A1F1B)),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Tab("Expenses", isExpenseTab) {
-                        isExpenseTab = true
-                    }
-                    Tab("Income", !isExpenseTab) {
-                        isExpenseTab = false
-                    }
+                    Tab(
+                        text = "Expenses",
+                        isSelected = isExpenseTab,
+                        onClick = { isExpenseTab = true },
+                        accessibilityLabel = "Show expenses tab, ${if (isExpenseTab) "currently selected" else "not selected"}"
+                    )
+                    Tab(
+                        text = "Income",
+                        isSelected = !isExpenseTab,
+                        onClick = { isExpenseTab = false },
+                        accessibilityLabel = "Show income tab, ${if (!isExpenseTab) "currently selected" else "not selected"}"
+                    )
                 }
 
                 Spacer(modifier = Modifier.height(32.dp))
@@ -253,7 +275,9 @@ fun ChartPage(modifier: Modifier = Modifier, navController: NavController, authV
                         color = Color.White,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        modifier = Modifier
+                            .padding(bottom = 16.dp)
+                            .semantics { heading() }
                     )
                 }
 
@@ -293,14 +317,22 @@ fun ChartPage(modifier: Modifier = Modifier, navController: NavController, authV
 }
 
 @Composable
-fun Tab(text: String, isSelected: Boolean, onClick: () -> Unit) {
+fun Tab(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    accessibilityLabel: String
+) {
     Box(
         modifier = Modifier
             .padding(4.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(if (isSelected) Color(0xFF81A38A) else Color.Transparent)
             .clickable { onClick() }
-            .padding(vertical = 12.dp, horizontal = 24.dp),
+            .padding(vertical = 12.dp, horizontal = 24.dp)
+            .semantics {
+                contentDescription = accessibilityLabel
+            },
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -325,7 +357,10 @@ fun PieChartSection(
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp)
-            .padding(top = 16.dp),
+            .padding(top = 16.dp)
+            .semantics {
+                contentDescription = "$formattedLabel: $formattedAmount. Chart showing ${categories.size} categories."
+            },
         contentAlignment = Alignment.Center
     ) {
         // This is a simplified pie chart implementation
@@ -369,7 +404,12 @@ fun PieChartSection(
         }
         
         // Center text showing total
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.semantics {
+                contentDescription = "Total ${if (isExpense) "expense" else "income"}: $formattedAmount"
+            }
+        ) {
             Text(
                 text = formattedAmount,
                 color = Color.White,
@@ -398,7 +438,10 @@ fun CategoryItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .semantics {
+                contentDescription = "${category.name}: $formattedAmount, ${formattedPercentage} of total ${if (isExpense) "expenses" else "income"}"
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Category color indicator and icon
