@@ -1,5 +1,7 @@
 package com.example.moneymind
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
@@ -9,8 +11,13 @@ import com.example.moneymind.pages.Login
 import com.example.moneymind.pages.SignUp
 import com.example.moneymind.AuthViewModel
 import com.example.moneymind.pages.Savings
+import com.example.moneymind.pages.TODAYS_TRANSACTIONS_ROUTE
+import com.example.moneymind.pages.TRANSACTION_LIST_ROUTE
+import com.example.moneymind.pages.TransactionListPage
+import com.example.moneymind.pages.TodayTransactionsPage
 import com.example.moneymind.pages.Welcome
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NavigationController(modifier: Modifier = Modifier, authViewModel: AuthViewModel) {
     val navController = rememberNavController()
@@ -27,6 +34,28 @@ fun NavigationController(modifier: Modifier = Modifier, authViewModel: AuthViewM
         }
         composable("savings"){
             Savings(modifier,navController,authViewModel)
+        }
+
+        // Route for all transactions (no specific date)
+        composable(TRANSACTION_LIST_ROUTE) {
+            TransactionListPage(
+                navController = navController
+                // Use default date (today)
+            )
+        }
+        
+        // Special route just for today's transactions
+        composable(TODAYS_TRANSACTIONS_ROUTE) {
+            TodayTransactionsPage(navController = navController)
+        }
+        
+        // Route with date parameter
+        composable("$TRANSACTION_LIST_ROUTE/{date}") { backStackEntry ->
+            val date = backStackEntry.arguments?.getString("date")
+            TransactionListPage(
+                navController = navController,
+                dateString = date
+            )
         }
     })
 }
