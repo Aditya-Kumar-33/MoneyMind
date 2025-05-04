@@ -21,7 +21,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moneymind.pages.ChartPage
-import com.example.moneymind.pages.HistoryPage
 import com.example.moneymind.pages.Login
 import com.example.moneymind.pages.NotesPage
 import com.example.moneymind.pages.ProfilePage
@@ -98,18 +97,13 @@ fun NavigationController(modifier: Modifier = Modifier, authViewModel: AuthViewM
                     NotesPage(modifier, navController, authViewModel)
                 }
                 composable(BottomNavItem.History.route) {
-                    HistoryPage(modifier, navController, authViewModel)
+                    Savings(modifier, navController, authViewModel)
                 }
                 composable(BottomNavItem.Chart.route) {
                     ChartPage(modifier, navController, authViewModel)
                 }
                 composable(BottomNavItem.Profile.route) {
                     ProfilePage(modifier, navController, authViewModel)
-                }
-
-                // Legacy route
-                composable("savings") {
-                    Savings(modifier, navController, authViewModel)
                 }
             }
         }
