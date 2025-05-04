@@ -7,19 +7,40 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
-import com.example.moneymind.ui.theme.MoneyMindTheme
 import androidx.compose.material3.Scaffold
-
+import com.example.moneymind.accessibility.AccessibilityViewModel
+import com.example.moneymind.accessibility.AccessibilityViewModelFactory
+import com.example.moneymind.ui.theme.MoneyMindTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val authViewModel : AuthViewModel by viewModels()
+        
+        // Initialize ViewModels
+        val authViewModel: AuthViewModel by viewModels()
+        
+        // Initialize AccessibilityViewModel with factory
+        val accessibilityViewModel: AccessibilityViewModel by viewModels { 
+            AccessibilityViewModelFactory(this) 
+        }
+        
         setContent {
-            MoneyMindTheme {
-                Scaffold (modifier = Modifier.fillMaxSize()){ innerPadding ->
-                    NavigationController(modifier = Modifier.padding(innerPadding),authViewModel=authViewModel)
+            // Get current accessibility settings
+            val accessibilitySettings = accessibilityViewModel.settings.value
+            
+            // Apply accessibility settings to theme if needed
+            MoneyMindTheme(
+                // Apply settings like dark mode, dynamic colors, etc. if needed
+                // darkTheme = accessibilitySettings.highContrastEnabled
+            ) {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    NavigationController(
+                        modifier = Modifier.padding(innerPadding),
+                        authViewModel = authViewModel,
+                        // Pass accessibility view model to navigation controller
+                        accessibilityViewModel = accessibilityViewModel
+                    )
                 }
             }
         }

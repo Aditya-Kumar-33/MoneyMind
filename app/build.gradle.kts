@@ -68,4 +68,11 @@ dependencies {
     implementation(libs.androidx.room.runtime.android) // You already have this - keep it
     implementation(libs.androidx.room.ktx) // <<< ADD THIS (Recommended for coroutines/flow support)
     ksp(libs.androidx.room.compiler) // <<< ADD THIS (The annotation processor using ksp)
+    
+    // DataStore Preferences for accessibility settings
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-core:1.0.0")
+    
+    // Accessibility and Compose TalkBack support
+    implementation("androidx.compose.ui:ui-tooling:1.5.4")
 }
