@@ -38,6 +38,8 @@ fun MoneyMindTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
+    // Text scaling factor for accessibility
+    textScale: Float = 1.0f,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -49,10 +51,29 @@ fun MoneyMindTheme(
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
+    
+    // Apply text scaling to typography
+    val scaledTypography = Typography.copy(
+        displayLarge = Typography.displayLarge.copy(fontSize = Typography.displayLarge.fontSize * textScale),
+        displayMedium = Typography.displayMedium.copy(fontSize = Typography.displayMedium.fontSize * textScale),
+        displaySmall = Typography.displaySmall.copy(fontSize = Typography.displaySmall.fontSize * textScale),
+        headlineLarge = Typography.headlineLarge.copy(fontSize = Typography.headlineLarge.fontSize * textScale),
+        headlineMedium = Typography.headlineMedium.copy(fontSize = Typography.headlineMedium.fontSize * textScale),
+        headlineSmall = Typography.headlineSmall.copy(fontSize = Typography.headlineSmall.fontSize * textScale),
+        titleLarge = Typography.titleLarge.copy(fontSize = Typography.titleLarge.fontSize * textScale),
+        titleMedium = Typography.titleMedium.copy(fontSize = Typography.titleMedium.fontSize * textScale),
+        titleSmall = Typography.titleSmall.copy(fontSize = Typography.titleSmall.fontSize * textScale),
+        bodyLarge = Typography.bodyLarge.copy(fontSize = Typography.bodyLarge.fontSize * textScale),
+        bodyMedium = Typography.bodyMedium.copy(fontSize = Typography.bodyMedium.fontSize * textScale),
+        bodySmall = Typography.bodySmall.copy(fontSize = Typography.bodySmall.fontSize * textScale),
+        labelLarge = Typography.labelLarge.copy(fontSize = Typography.labelLarge.fontSize * textScale),
+        labelMedium = Typography.labelMedium.copy(fontSize = Typography.labelMedium.fontSize * textScale),
+        labelSmall = Typography.labelSmall.copy(fontSize = Typography.labelSmall.fontSize * textScale)
+    )
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = scaledTypography,
         content = content
     )
 }

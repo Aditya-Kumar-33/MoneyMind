@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Money Mind</string>
+    
+    <!-- Common Labels -->
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="back">Atrás</string>
+    <string name="next">Siguiente</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="signup">Registrarse</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    
+    <!-- Navigation -->
+    <string name="nav_notes">Notas</string>
+    <string name="nav_savings">Ahorros</string>
+    <string name="nav_chart">Gráficos</string>
+    <string name="nav_profile">Perfil</string>
+    
+    <!-- Profile Page -->
+    <string name="profile_title">Perfil y Configuraciones</string>
+    <string name="profile_personal_info">Información Personal</string>
+    <string name="profile_language">Idioma</string>
+    <string name="profile_accessibility">Accesibilidad</string>
+    <string name="profile_appearance">Apariencia</string>
+    <string name="profile_notifications">Notificaciones</string>
+    <string name="profile_security">Seguridad</string>
+    <string name="profile_email">Correo electrónico</string>
+    <string name="profile_signout">Cerrar sesión</string>
+    
+    <!-- Accessibility -->
+    <string name="accessibility_title">Configuración de Accesibilidad</string>
+    <string name="talkback_button">Activar TalkBack</string>
+    <string name="high_contrast">Alto Contraste</string>
+    <string name="large_text">Texto Grande</string>
+    <string name="verbose_announcements">Anuncios Detallados</string>
+    
+    <!-- Languages -->
+    <string name="language_title">Seleccionar Idioma</string>
+    <string name="language_english">Inglés</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Francés</string>
+    <string name="language_german">Alemán</string>
+    <string name="language_hindi">Hindi</string>
+</resources> 

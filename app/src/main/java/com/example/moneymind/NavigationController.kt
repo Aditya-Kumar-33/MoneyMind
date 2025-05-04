@@ -12,6 +12,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.compose.rememberNavController
@@ -19,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.moneymind.pages.*
 import com.example.moneymind.accessibility.AccessibilityViewModel
+import com.example.moneymind.language.LanguageViewModel
 import com.example.moneymind.ui.components.BottomNavBar
 import com.example.moneymind.ui.components.BottomNavItem
 
@@ -30,7 +33,8 @@ const val ACCESSIBILITY_SETTINGS_ROUTE = "accessibility_settings"
 fun NavigationController(
     modifier: Modifier = Modifier, 
     authViewModel: AuthViewModel,
-    accessibilityViewModel: AccessibilityViewModel
+    accessibilityViewModel: AccessibilityViewModel,
+    languageViewModel: LanguageViewModel
 ) {
     val navController = rememberNavController()
     
@@ -125,7 +129,13 @@ fun NavigationController(
                         ChartPage(modifier, navController, authViewModel)
                     }
                     composable(BottomNavItem.Profile.route) {
-                        ProfilePage(modifier, navController, authViewModel)
+                        ProfilePage(
+                            modifier = modifier,
+                            navController = navController,
+                            authViewModel = authViewModel,
+                            accessibilityViewModel = accessibilityViewModel,
+                            languageViewModel = languageViewModel
+                        )
                     }
                     
                     // Route for all transactions (no specific date)
@@ -155,6 +165,35 @@ fun NavigationController(
                         AccessibilitySettingsPage(
                             navController = navController,
                             accessibilityViewModel = accessibilityViewModel
+                        )
+                    }
+                    
+                    // Language settings route
+                    composable(LANGUAGE_SETTINGS_ROUTE) {
+                        LanguageSettingsPage(
+                            navController = navController,
+                            languageViewModel = languageViewModel
+                        )
+                    }
+                    
+                    // Appearance settings route
+                    composable(APPEARANCE_SETTINGS_ROUTE) {
+                        AppearanceSettingsPage(
+                            navController = navController
+                        )
+                    }
+                    
+                    // Notifications settings route
+                    composable(NOTIFICATIONS_SETTINGS_ROUTE) {
+                        NotificationsSettingsPage(
+                            navController = navController
+                        )
+                    }
+                    
+                    // Security settings route
+                    composable(SECURITY_SETTINGS_ROUTE) {
+                        SecuritySettingsPage(
+                            navController = navController
                         )
                     }
                 }
