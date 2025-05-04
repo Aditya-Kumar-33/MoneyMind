@@ -5,9 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
 import androidx.compose.ui.Modifier
-import androidx.compose.material3.Scaffold
 import com.example.moneymind.accessibility.AccessibilityViewModel
 import com.example.moneymind.accessibility.AccessibilityViewModelFactory
 import com.example.moneymind.ui.theme.MoneyMindTheme
@@ -34,14 +32,11 @@ class MainActivity : ComponentActivity() {
                 // Apply settings like dark mode, dynamic colors, etc. if needed
                 // darkTheme = accessibilitySettings.highContrastEnabled
             ) {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavigationController(
-                        modifier = Modifier.padding(innerPadding),
-                        authViewModel = authViewModel,
-                        // Pass accessibility view model to navigation controller
-                        accessibilityViewModel = accessibilityViewModel
-                    )
-                }
+                // The Scaffold is now moved to NavigationController for better control
+                NavigationController(
+                    authViewModel = authViewModel,
+                    accessibilityViewModel = accessibilityViewModel
+                )
             }
         }
     }

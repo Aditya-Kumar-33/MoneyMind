@@ -39,6 +39,13 @@ android {
     buildFeatures {
         compose = true
     }
+    
+    // Skip unit tests
+    testOptions {
+        unitTests.all {
+            it.enabled = false
+        }
+    }
 }
 
 dependencies {

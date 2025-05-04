@@ -11,8 +11,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 // Define the single database for the app
 @Database(
   // List ALL entities for this database
-  entities = [Transaction::class, SavingsRecord::class],
-  version = 2, // Increment version to 2
+  entities = [
+    Transaction::class, 
+    TransactionCategory::class,
+    SavingsRecord::class
+  ],
+  version = 1, // Increment version to 1
   exportSchema = false // Disable schema export for now
 )
 // Tell Room to use the Converters class
@@ -21,6 +25,7 @@ abstract class AppDatabase : RoomDatabase() {
 
   // Abstract getters for ALL DAOs
   abstract fun transactionDao(): TransactionDao
+  abstract fun categoryDao(): CategoryDao
   abstract fun savingsDao(): SavingsDao // Add SavingsDao getter
 
   // Companion object for singleton instance
@@ -38,7 +43,11 @@ abstract class AppDatabase : RoomDatabase() {
 
     // Get the singleton database instance
     fun getDatabase(context: Context): AppDatabase {
-      return INSTANCE ?: synchronized(this) { // Thread-safe creation
+      val tempInstance = INSTANCE
+      if (tempInstance != null) {
+        return tempInstance
+      }
+      synchronized(this) {
         val instance = Room.databaseBuilder(
           context.applicationContext,
           AppDatabase::class.java,
@@ -51,7 +60,7 @@ abstract class AppDatabase : RoomDatabase() {
           .fallbackToDestructiveMigration()
           .build()
         INSTANCE = instance // Store the instance
-        instance // Return the instance
+        return instance // Return the instance
       }
     }
   }

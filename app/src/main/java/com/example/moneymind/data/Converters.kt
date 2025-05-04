@@ -1,7 +1,7 @@
-package com.example.moneymind.data // Use your correct package name
+package com.example.moneymind.data
 
-import android.os.Build // Keep for RequiresApi
-import androidx.annotation.RequiresApi // Keep for RequiresApi
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.room.TypeConverter
 import java.time.LocalDate
 import java.time.LocalTime
@@ -9,36 +9,37 @@ import java.time.format.DateTimeFormatter
 
 // Note: java.time types require minSdk 26+ or library desugaring enabled.
 
-object Converters {
+/**
+ * Type converters for Room database to handle non-primitive types
+ */
+class Converters {
+  private val dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE
+  private val timeFormatter = DateTimeFormatter.ISO_LOCAL_TIME
 
-  // --- LocalDate <-> String ---
+  // LocalDate Converters
   @RequiresApi(Build.VERSION_CODES.O) // Required for java.time
   @TypeConverter
-  fun fromLocalDateString(value: String?): LocalDate? {
-    // String from DB to LocalDate
-    return value?.let { LocalDate.parse(it) }
+  fun fromLocalDate(date: LocalDate?): String? {
+    return date?.format(dateFormatter)
   }
 
   @RequiresApi(Build.VERSION_CODES.O) // Required for java.time
   @TypeConverter
-  fun localDateToString(date: LocalDate?): String? {
-    // LocalDate from app to String
-    return date?.format(DateTimeFormatter.ISO_LOCAL_DATE)
+  fun toLocalDate(dateString: String?): LocalDate? {
+    return dateString?.let { LocalDate.parse(it, dateFormatter) }
   }
 
-  // --- LocalTime <-> String ---
+  // LocalTime Converters
   @RequiresApi(Build.VERSION_CODES.O) // Required for java.time
   @TypeConverter
-  fun fromLocalTimeString(value: String?): LocalTime? {
-    // String from DB to LocalTime
-    return value?.let { LocalTime.parse(it) }
+  fun fromLocalTime(time: LocalTime?): String? {
+    return time?.format(timeFormatter)
   }
 
   @RequiresApi(Build.VERSION_CODES.O) // Required for java.time
   @TypeConverter
-  fun localTimeToString(time: LocalTime?): String? {
-    // LocalTime from app to String
-    return time?.format(DateTimeFormatter.ISO_LOCAL_TIME)
+  fun toLocalTime(timeString: String?): LocalTime? {
+    return timeString?.let { LocalTime.parse(it, timeFormatter) }
   }
 
   // --- TransactionType Enum <-> String --- ADDED THIS
