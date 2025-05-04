@@ -242,7 +242,7 @@ fun ChartPage(modifier: Modifier = Modifier, navController: NavController, authV
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.43f)
+                .fillMaxHeight(0.5f)
                 .clip(RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp))
                 .background(
                     brush = Brush.verticalGradient(

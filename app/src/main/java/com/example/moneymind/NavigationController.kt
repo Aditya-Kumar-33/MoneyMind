@@ -1,11 +1,17 @@
 package com.example.moneymind
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -70,59 +76,63 @@ fun NavigationController(modifier: Modifier = Modifier, authViewModel: AuthViewM
     Box(modifier = Modifier.zIndex(1f)) {
         Scaffold(
             bottomBar = {
-                // Only show bottom nav bar when authenticated
                 if (isAuthenticated) {
                     BottomNavBar(navController)
                 }
-            }
-        ) { innerPadding ->
-            NavHost(
-                navController = navController,
-                startDestination = "welcome",
-                modifier = Modifier.padding(innerPadding)
-            ) {
-                // Auth screens
-                composable("welcome") {
-                    Welcome(modifier, navController, authViewModel)
+            },
+            floatingActionButton = {
+                if (isAuthenticated) {
+                    FloatingActionButton(
+                        onClick = { },
+                        shape = CircleShape,
+                        containerColor = Color(0xFF7FBB92),
+                        contentColor = Color.White,
+                        elevation = FloatingActionButtonDefaults.elevation(8.dp),
+                        modifier = Modifier.size(64.dp).offset(y = 50.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add",
+                            modifier = Modifier.size(32.dp),
+                            tint = Color.White
+                        )
+                    }
                 }
-                composable("login") {
-                    Login(modifier, navController, authViewModel)
-                }
-                composable("signup") {
-                    SignUp(modifier, navController, authViewModel)
-                }
+            },
+            floatingActionButtonPosition = FabPosition.Center,
+            content = { innerPadding ->
+                NavHost(
+                    navController = navController,
+                    startDestination = "welcome",
+                    modifier = Modifier.padding(innerPadding)
+                ) {
+                    // Auth screens
+                    composable("welcome") {
+                        Welcome(modifier, navController, authViewModel)
+                    }
+                    composable("login") {
+                        Login(modifier, navController, authViewModel)
+                    }
+                    composable("signup") {
+                        SignUp(modifier, navController, authViewModel)
+                    }
 
-                // Main app screens (post-authentication)
-                composable(BottomNavItem.Notes.route) {
-                    NotesPage(modifier, navController, authViewModel)
-                }
-                composable(BottomNavItem.Savings.route) {
-                    Savings(modifier, navController, authViewModel)
-                }
-                composable(BottomNavItem.Chart.route) {
-                    ChartPage(modifier, navController, authViewModel)
-                }
-                composable(BottomNavItem.Profile.route) {
-                    ProfilePage(modifier, navController, authViewModel)
+                    // Main app screens
+                    composable(BottomNavItem.Notes.route) {
+                        NotesPage(modifier, navController, authViewModel)
+                    }
+                    composable(BottomNavItem.Savings.route) {
+                        Savings(modifier, navController, authViewModel)
+                    }
+                    composable(BottomNavItem.Chart.route) {
+                        ChartPage(modifier, navController, authViewModel)
+                    }
+                    composable(BottomNavItem.Profile.route) {
+                        ProfilePage(modifier, navController, authViewModel)
+                    }
                 }
             }
-        }
+        )
 
-        // Centered FAB on top of the navigation bar
-        if (isAuthenticated) {
-            FloatingActionButton(
-                onClick = { /* Add your action here */ },
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 30.dp)
-                    .zIndex(2f),
-                shape = CircleShape,
-                containerColor = Color(0xFF7FBB92), // Green color from the example
-                contentColor = Color.White,
-                elevation = FloatingActionButtonDefaults.elevation(8.dp)
-            ) {
-                AddButton()
-            }
-        }
     }
 }

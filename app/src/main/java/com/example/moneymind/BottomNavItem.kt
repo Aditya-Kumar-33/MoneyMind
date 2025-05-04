@@ -1,20 +1,10 @@
 package com.example.moneymind
 
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.PieChart
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.PieChart
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,19 +16,22 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.compose.material.icons.outlined.EditNote
+import androidx.compose.material.icons.outlined.Savings
 
 // Define the navigation items with their routes, icons, and labels
 sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
-    object Notes : BottomNavItem("notes", Icons.Default.Description, "Notes")
-    object Savings : BottomNavItem("savings", Icons.Default.History, "Savings")
-    object Chart : BottomNavItem("chart", Icons.Default.PieChart, "Chart")
-    object Profile : BottomNavItem("profile", Icons.Default.AccountCircle, "Profile")
+    object Notes : BottomNavItem("notes", Icons.Outlined.EditNote, "Notes")
+    object Savings : BottomNavItem("savings", Icons.Outlined.Savings, "Savings")
+    object Chart : BottomNavItem("chart", Icons.Outlined.PieChart, "Chart")
+    object Profile : BottomNavItem("profile", Icons.Outlined.AccountCircle, "Profile")
 }
 
-// List of all bottom navigation items
+// List of all bottom navigation items (split with null for gap)
 val bottomNavItems = listOf(
     BottomNavItem.Notes,
     BottomNavItem.Savings,
+    null, // Gap for FAB
     BottomNavItem.Chart,
     BottomNavItem.Profile
 )
@@ -48,23 +41,29 @@ fun BottomNavBar(navController: NavController) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    // Styling for bottom navigation
     val backgroundColor = Color.Black
-    val selectedColor = MaterialTheme.colorScheme.primary
+    val selectedColor = Color(0xFF81A38A)
     val unselectedColor = Color.Gray
 
     NavigationBar(
         containerColor = backgroundColor,
-        contentColor = selectedColor
+        tonalElevation = 0.dp,
+        modifier = Modifier
+            .height(64.dp),
+        windowInsets = NavigationBarDefaults.windowInsets // ensures icons are centered
     ) {
         bottomNavItems.forEach { item ->
-            AddItem(
-                navItem = item,
-                currentDestination = currentDestination,
-                navController = navController,
-                selectedColor = selectedColor,
-                unselectedColor = unselectedColor
-            )
+            when (item) {
+                null -> Spacer(Modifier.weight(1f)) // dynamic space for FAB
+                else -> AddItem(
+                    navItem = item,
+                    currentDestination = currentDestination,
+                    navController = navController,
+                    selectedColor = selectedColor,
+                    unselectedColor = unselectedColor,
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }
@@ -75,58 +74,41 @@ fun RowScope.AddItem(
     currentDestination: NavDestination?,
     navController: NavController,
     selectedColor: Color,
-    unselectedColor: Color
+    unselectedColor: Color,
+    modifier: Modifier = Modifier
 ) {
     val selected = currentDestination?.hierarchy?.any { it.route == navItem.route } == true
 
     NavigationBarItem(
+        modifier = modifier,
         icon = {
             Icon(
                 imageVector = navItem.icon,
                 contentDescription = navItem.label,
-                modifier = Modifier.size(24.dp),
-                tint = if (selected) selectedColor else unselectedColor
-            )
-        },
-        label = {
-            Text(
-                text = navItem.label,
-                color = if (selected) selectedColor else unselectedColor
+                modifier = Modifier.size(24.dp)
             )
         },
         selected = selected,
-        colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = selectedColor,
-            unselectedIconColor = unselectedColor,
-            selectedTextColor = selectedColor,
-            unselectedTextColor = unselectedColor
-        ),
+        alwaysShowLabel = true,
         onClick = {
             navController.navigate(navItem.route) {
-                // Pop up to the start destination of the graph to
-                // avoid building up a large stack of destinations
                 popUpTo(navController.graph.findStartDestination().id) {
                     saveState = true
                 }
-                // Avoid multiple copies of the same destination
                 launchSingleTop = true
-                // Restore state when reselecting a previously selected item
                 restoreState = true
             }
-        }
+        },
+        colors = NavigationBarItemDefaults.colors(
+            indicatorColor = Color.Transparent,
+            selectedIconColor = selectedColor,
+            selectedTextColor = selectedColor,
+            unselectedIconColor = unselectedColor,
+            unselectedTextColor = unselectedColor
+        )
     )
 }
 
-// This is a floating action button for adding new entries
-@Composable
-fun AddButton() {
-    // A green circular button with a + icon as shown in the image
-    val greenColor = Color(0xFF7FBB92) // Matches the color in your example
 
-    Icon(
-        imageVector = Icons.Default.Add,
-        contentDescription = "Add",
-        tint = Color.White,
-        modifier = Modifier.size(24.dp)
-    )
-}
+
+
