@@ -42,6 +42,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.moneymind.AuthState
 import com.example.moneymind.AuthViewModel
+import androidx.compose.ui.res.stringResource
+import com.example.moneymind.R
+
 
 @Composable
 fun SignUp(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
@@ -51,7 +54,6 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
     var phoneNumber by remember { mutableStateOf("") }
 
     val authState = authViewModel.authState.observeAsState()
-    // Add local context
     val localContext = LocalContext.current
 
     LaunchedEffect(authState.value) {
@@ -60,7 +62,6 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
                 navController.navigate("savings")
             }
             is AuthState.Error -> {
-                // Use localContext instead of undefined context
                 val errorState = authState.value as AuthState.Error
                 Toast.makeText(localContext, errorState.message, Toast.LENGTH_SHORT).show()
             }
@@ -69,7 +70,6 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Background with gradient
         Box(
             modifier = Modifier
                 .fillMaxHeight(0.85f)
@@ -93,7 +93,6 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val diameter = size.width * 0.9f
                     val shiftRight = size.width / 2
-
                     drawArc(
                         color = Color(0xFF323F36),
                         startAngle = 90f,
@@ -105,7 +104,6 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
                 }
             }
 
-            // Content column with text fields
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,17 +112,15 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Material3 colors for outlined text field
                 val borderColor = Color(0xFF323F36)
                 val focusedBorderColor = Color(0xFF81A38A)
                 val labelColor = Color(0xBBBBBBBB)
                 val focusedLabelColor = Color.White
 
-                // Input boxes with Material3 styling
                 OutlinedTextField(
                     value = fullName,
                     onValueChange = { fullName = it },
-                    label = { Text("Full name") },
+                    label = { Text(stringResource(R.string.full_name)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -142,7 +138,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label = { Text("Email") },
+                    label = { Text(stringResource(R.string.email)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -160,7 +156,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Password") },
+                    label = { Text(stringResource(R.string.password)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -179,7 +175,7 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
                 OutlinedTextField(
                     value = phoneNumber,
                     onValueChange = { phoneNumber = it },
-                    label = { Text("Phone Number (Optional)") },
+                    label = { Text(stringResource(R.string.phone_optional)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -196,7 +192,6 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
             }
         }
 
-        // Button at the bottom
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -215,16 +210,19 @@ fun SignUp(modifier: Modifier = Modifier, navController: NavController, authView
                         .fillMaxWidth(0.9f)
                         .height(60.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF81A38A),
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF81A38A))
                 ) {
-                    Text(text = "Create Account", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = stringResource(R.string.create_account),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Already have an account?",
+                    text = stringResource(R.string.already_have_account),
                     fontSize = 18.sp,
                     color = Color.White,
                     modifier = Modifier.clickable {

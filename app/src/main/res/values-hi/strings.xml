@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Money Mind</string>
+    <string name="email">ईमेल</string>
+    <string name="password">पासवर्ड</string>
+    <string name="contin">जारी रखें</string>
+    <string name="create_account">नया खाता बनाएं?</string>
+    <string name="full_name">पूरा नाम</string>
+    <string name="phone_optional">फोन नंबर (वैकल्पिक)</string>
+    <string name="already_have_account">पहले से खाता है?</string>
+
+    <!-- Welcome screen strings -->
+    <string name="tagline">हर खर्च का आसान प्रबंधन।</string>
+    <string name="description">एक ऐसा ऐप जो समझदार खर्च करने वालों को खर्च ट्रैक करने, प्रभावी रूप से बचत करने और बेहतर वित्तीय निर्णय लेने में सक्षम बनाता है।</string>
+    <string name="lets_start">शुरू करें</string>
+    <string name="sign_up">साइन अप करें</string>
+    <string name="log_in">लॉग इन करें</string>
+</resources>

@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Money Mind</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="contin">Continue</string>
+    <string name="create_account">Create new account?</string>
+    <string name="full_name">Full name</string>
+    <string name="phone_optional">Phone Number (Optional)</string>
+    <string name="already_have_account">Already have an account?</string>
+
+    <!-- Welcome screen strings -->
+    <string name="tagline">Every expense, effortlessly managed.</string>
+    <string name="description">An app that empowers mindful spenders to track expenses, save efficiently, and make smarter financial decisions effortlessly.</string>
+    <string name="lets_start">Let\'s Start</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="log_in">Log In</string>
 </resources>

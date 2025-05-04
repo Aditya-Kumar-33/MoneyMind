@@ -39,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.moneymind.AuthViewModel
+import androidx.compose.ui.res.stringResource
+import com.example.moneymind.R
 
 @Composable
 fun Welcome(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
@@ -48,22 +50,20 @@ fun Welcome(modifier: Modifier = Modifier, navController: NavController, authVie
 
     val animatedHeightFraction by animateFloatAsState(
         targetValue = if (isClicked) 0.7f else 1f,
-        animationSpec = tween(durationMillis = 600), // Adjust animation speed
+        animationSpec = tween(durationMillis = 600),
         label = "boxHeightAnimation"
     )
 
     val animatedCorner by animateDpAsState(
         targetValue = if (isClicked) 20.dp else 0.dp,
-        animationSpec = tween(durationMillis = 600), // Adjust animation speed
+        animationSpec = tween(durationMillis = 600),
         label = "boxCornerAnimation"
     )
-
 
     LaunchedEffect(animatedHeightFraction) {
         isAnimationFinished = animatedHeightFraction == 1f
     }
 
-    // Handle back press
     BackHandler(enabled = isClicked) {
         isClicked = false
     }
@@ -83,15 +83,14 @@ fun Welcome(modifier: Modifier = Modifier, navController: NavController, authVie
                 )
             )
     ) {
-        // Blurred semi-circle
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .blur(150.dp) // Adjust blur intensity as needed
+                .blur(150.dp)
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val diameter = size.width * 0.9f
-                val shiftRight = size.width / 2  // Shift by half the screen width
+                val shiftRight = size.width / 2
 
                 drawArc(
                     color = Color(0xFF323F36),
@@ -99,24 +98,25 @@ fun Welcome(modifier: Modifier = Modifier, navController: NavController, authVie
                     sweepAngle = 180f,
                     useCenter = true,
                     size = Size(diameter, diameter),
-                    topLeft = Offset(size.width - diameter + shiftRight, 0f) // Shift right
+                    topLeft = Offset(size.width - diameter + shiftRight, 0f)
                 )
             }
         }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 160.dp, start = 24.dp, end = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top // Align texts at the top
+            verticalArrangement = Arrangement.Top
         ) {
             Text(
-                text = "MoneyMind",
-                fontSize = 50.sp, // Adjust font size
-                fontWeight = FontWeight.Bold, // Make text bold
-                color = Color.White, // Text color
-                textAlign = TextAlign.Left, // Align text to the left
-                lineHeight = 40.sp, // Adjust line spacing (increase value for more spacing)
+                text = stringResource(id = R.string.app_name),
+                fontSize = 50.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Left,
+                lineHeight = 40.sp,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -127,33 +127,31 @@ fun Welcome(modifier: Modifier = Modifier, navController: NavController, authVie
                     .fillMaxSize()
                     .padding(top = 550.dp, start = 24.dp, end = 50.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top // Align texts at the top
+                verticalArrangement = Arrangement.Top
             ) {
                 Text(
-                    text = "Every expense, effortlessly managed.",
-                    fontSize = 30.sp, // Adjust font size
-                    fontWeight = FontWeight.Bold, // Make text bold
-                    color = Color.White, // Text color
-                    textAlign = TextAlign.Left, // Align text to the left
-                    lineHeight = 40.sp, // Adjust line spacing (increase value for more spacing)
+                    text = stringResource(id = R.string.tagline),
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    textAlign = TextAlign.Left,
+                    lineHeight = 40.sp,
                     modifier = Modifier.fillMaxWidth()
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "An app that empowers mindful spenders to track expenses, save efficiently, and make smarter financial decisions effortlessly.",
-                    fontSize = 18.sp, // Adjust font size
+                    text = stringResource(id = R.string.description),
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color.LightGray, // Light gray text color for contrast
-                    textAlign = TextAlign.Left, // Center align text
-                    modifier = Modifier
-                        .fillMaxWidth(1f) // Adjust text width
+                    color = Color.LightGray,
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
 
-        // "Let's Start" button (only when fully expanded)
         if (isAnimationFinished && !isClicked) {
             Box(
                 modifier = Modifier
@@ -171,12 +169,15 @@ fun Welcome(modifier: Modifier = Modifier, navController: NavController, authVie
                         containerColor = Color(0xFF81A38A),
                     )
                 ) {
-                    Text(text = "Let's Start", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = stringResource(id = R.string.lets_start),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         }
     }
-
 
     if (isClicked) {
         Box(
@@ -186,40 +187,35 @@ fun Welcome(modifier: Modifier = Modifier, navController: NavController, authVie
             contentAlignment = Alignment.BottomCenter
         ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(5.dp), // Add spacing between buttons
+                verticalArrangement = Arrangement.spacedBy(5.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Button(
-                    onClick = {
-                        navController.navigate("signup")
-                    },
+                    onClick = { navController.navigate("signup") },
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
                         .height(50.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Transparent,
-                        contentColor = Color(0xFF81A38A), // Custom button color
+                        contentColor = Color(0xFF81A38A)
                     )
                 ) {
-                    Text(text = "Sign Up")
+                    Text(text = stringResource(id = R.string.sign_up))
                 }
                 Button(
-                    onClick = {
-                        navController.navigate("login")
-                    },
+                    onClick = { navController.navigate("login") },
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
                         .height(50.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF81A38A), // Custom button color
+                        containerColor = Color(0xFF81A38A)
                     )
                 ) {
-                    Text(text = "Log In")
+                    Text(text = stringResource(id = R.string.log_in))
                 }
             }
         }
     }
-
 }

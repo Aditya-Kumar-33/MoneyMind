@@ -16,6 +16,7 @@ firebaseCrashlyticsBuildtools = "3.0.3"
 runtimeLivedata = "1.7.8"
 roomCommonJvm = "2.7.0"
 roomRuntimeAndroid = "2.7.0"
+runtimeLivedataVersion = "1.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -39,6 +40,7 @@ firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "fireb
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
 androidx-room-runtime-android = { group = "androidx.room", name = "room-runtime-android", version.ref = "roomRuntimeAndroid" }
+runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedataVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

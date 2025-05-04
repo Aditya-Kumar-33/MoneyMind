@@ -1,5 +1,6 @@
 package com.example.moneymind.pages
 
+import android.widget.Toast
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,11 +16,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,22 +35,50 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.moneymind.AuthState
 import com.example.moneymind.AuthViewModel
+import com.example.moneymind.R
 
 @Composable
-fun Login(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel)
-{
+fun Login(modifier: Modifier = Modifier, navController: NavController, authViewModel: AuthViewModel) {
+    val context = LocalContext.current
+    val authState by authViewModel.authState.observeAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        // Background with gradient
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    // Monitor auth state for success/error messages
+    LaunchedEffect(authState) {
+        when (authState) {
+            is AuthState.Error -> {
+                // Show error message
+                Toast.makeText(
+                    context,
+                    (authState as AuthState.Error).message,
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            is AuthState.Authenticated -> {
+                // Success - Navigation is handled in NavigationController
+                Toast.makeText(
+                    context,
+                    "Login successful!",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> {}
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Background
         Box(
             modifier = Modifier
                 .fillMaxHeight(0.85f)
@@ -70,7 +102,6 @@ fun Login(modifier: Modifier = Modifier, navController: NavController, authViewM
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val diameter = size.width * 0.9f
                     val shiftRight = size.width / 2
-
                     drawArc(
                         color = Color(0xFF323F36),
                         startAngle = 90f,
@@ -82,7 +113,6 @@ fun Login(modifier: Modifier = Modifier, navController: NavController, authViewM
                 }
             }
 
-            // Content column with text fields
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -91,23 +121,13 @@ fun Login(modifier: Modifier = Modifier, navController: NavController, authViewM
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Material3 colors for outlined text field
                 val borderColor = Color(0xFF323F36)
                 val focusedBorderColor = Color(0xFF81A38A)
-
-
-                var email by remember { mutableStateOf("") }
-                var password by remember { mutableStateOf("") }
-
-                // Input boxes with Material3 styling
-
 
                 OutlinedTextField(
                     value = email,
                     onValueChange = { email = it },
-                    label={
-                        Text("Email")
-                    },
+                    label = { Text(stringResource(R.string.email)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -125,9 +145,7 @@ fun Login(modifier: Modifier = Modifier, navController: NavController, authViewM
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label={
-                        Text("Password")
-                    },
+                    label = { Text(stringResource(R.string.password)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
@@ -142,44 +160,58 @@ fun Login(modifier: Modifier = Modifier, navController: NavController, authViewM
                     shape = RoundedCornerShape(8.dp),
                     visualTransformation = PasswordVisualTransformation()
                 )
-
             }
         }
 
-        // Button at the bottom
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(bottom = 32.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            Column (
+            Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            ) {
                 Button(
-                    onClick = {},
+                    onClick = {
+                        // Call login function from AuthViewModel
+                        authViewModel.login(email, password)
+                    },
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
                         .height(60.dp),
                     shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF81A38A),
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF81A38A)),
+                    // Disable button while loading
+                    enabled = authState !is AuthState.Loading
                 ) {
-                    Text(text = "Continue", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    if (authState is AuthState.Loading) {
+                        // Show loading indicator
+                        CircularProgressIndicator(
+                            color = Color.White,
+                            modifier = Modifier.height(24.dp)
+                        )
+                    } else {
+                        Text(
+                            text = stringResource(R.string.contin),
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
+
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Create new account?",
+                    text = stringResource(R.string.create_account),
                     fontSize = 18.sp,
+                    color = Color.DarkGray,
                     modifier = Modifier.clickable {
                         navController.navigate("signup")
                     }
                 )
             }
-
         }
     }
 }
