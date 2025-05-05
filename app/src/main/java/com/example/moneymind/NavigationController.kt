@@ -174,14 +174,6 @@ fun NavigationController(
                             accessibilityViewModel = accessibilityViewModel
                         )
                     }
-                    
-                    // Language settings route
-                    composable(LANGUAGE_SETTINGS_ROUTE) {
-                        LanguageSettingsPage(
-                            navController = navController,
-                            languageViewModel = languageViewModel
-                        )
-                    }
                 }
             }
         )

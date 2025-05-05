@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Language
@@ -29,10 +31,23 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,11 +67,9 @@ import com.example.moneymind.R
 import com.example.moneymind.ACCESSIBILITY_SETTINGS_ROUTE
 import com.example.moneymind.accessibility.AccessibilityViewModel
 import com.example.moneymind.accessibility.TalkBackButton
+import com.example.moneymind.language.AppLanguage
 import com.example.moneymind.language.LanguageViewModel
 import com.example.moneymind.utils.accessibilityHeading
-
-// Route constant for language settings
-const val LANGUAGE_SETTINGS_ROUTE = "language_settings"
 
 @Composable
 fun ProfilePage(
@@ -145,14 +158,10 @@ fun ProfilePage(
                             .accessibilityHeading()
                     )
                     
-                    // Language settings
-                    SettingsItem(
-                        icon = Icons.Default.Language,
-                        title = stringResource(id = R.string.profile_language),
-                        onClick = {
-                            navController.navigate(LANGUAGE_SETTINGS_ROUTE)
-                        }
-                    )
+                    // Language dropdown
+                    if (languageViewModel != null) {
+                        LanguageSelector(languageViewModel = languageViewModel)
+                    }
                     
                     Divider(modifier = Modifier.padding(vertical = 8.dp))
                     
@@ -230,6 +239,116 @@ fun ProfilePage(
             
             // Bottom spacer
             Spacer(modifier = Modifier.height(72.dp))
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LanguageSelector(
+    languageViewModel: LanguageViewModel
+) {
+    // Get current language
+    val currentLanguage by languageViewModel.selectedLanguage.collectAsState()
+    val languages = remember { AppLanguage.values().toList() }
+    
+    // State for dropdown visibility
+    var expanded by remember { mutableStateOf(false) }
+    var selectedLanguage by remember { mutableStateOf(currentLanguage) }
+    
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 12.dp)
+            .semantics {
+                contentDescription = "Language selection, current language is ${currentLanguage.displayName}"
+            }
+    ) {
+        // Language icon with colored background
+        Box(
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .background(MaterialTheme.colorScheme.primaryContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Default.Language,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        
+        // Language title
+        Text(
+            text = stringResource(id = R.string.profile_language),
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = 16.dp),
+            fontSize = 16.sp
+        )
+        
+        // Language dropdown
+        Box {
+            Text(
+                text = selectedLanguage.displayName,
+                modifier = Modifier
+                    .clickable { expanded = true }
+                    .padding(end = 8.dp),
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.Bold
+            )
+            
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = "Select language",
+                modifier = Modifier.clickable { expanded = true },
+                tint = MaterialTheme.colorScheme.primary
+            )
+            
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.width(180.dp)
+            ) {
+                languages.forEach { language ->
+                    DropdownMenuItem(
+                        text = { Text(language.displayName) },
+                        onClick = {
+                            selectedLanguage = language
+                            expanded = false
+                        },
+                        colors = MenuDefaults.itemColors(
+                            textColor = if (language == selectedLanguage) 
+                                MaterialTheme.colorScheme.primary
+                            else
+                                MaterialTheme.colorScheme.onSurface
+                        )
+                    )
+                }
+            }
+        }
+    }
+    
+    // Apply button
+    if (selectedLanguage != currentLanguage) {
+        OutlinedButton(
+            onClick = {
+                languageViewModel.setLanguage(selectedLanguage)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp, bottom = 8.dp)
+                .semantics {
+                    contentDescription = "Apply language change to ${selectedLanguage.displayName}"
+                }
+        ) {
+            Text(
+                text = "Apply ${selectedLanguage.displayName}",
+                fontSize = 14.sp
+            )
         }
     }
 }
