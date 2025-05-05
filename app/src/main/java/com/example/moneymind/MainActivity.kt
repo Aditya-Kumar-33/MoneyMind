@@ -15,10 +15,22 @@ import com.example.moneymind.accessibility.AccessibilityViewModel
 import com.example.moneymind.accessibility.AccessibilityViewModelFactory
 import com.example.moneymind.language.LanguageViewModel
 import com.example.moneymind.language.LanguageViewModelFactory
+import com.example.moneymind.language.AppLanguage
 import com.example.moneymind.ui.theme.MoneyMindTheme
 import java.util.Locale
 import android.widget.Toast
 import java.io.File
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
+
+// DataStore setup at app level
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "language_settings")
+private val LANGUAGE_KEY = stringPreferencesKey("selected_language")
 
 class MainActivity : ComponentActivity() {
     // Initialize ViewModels at class level for lifecycle awareness
@@ -26,9 +38,13 @@ class MainActivity : ComponentActivity() {
     
     // We need to override attachBaseContext to set the locale before the Activity is created
     override fun attachBaseContext(newBase: Context) {
-        // Get the saved language preference
-        val sharedPreferences = newBase.getSharedPreferences("language_settings", Context.MODE_PRIVATE)
-        val languageCode = sharedPreferences.getString("selected_language", Locale.getDefault().language) ?: "en"
+        // Get the saved language preference from DataStore instead of SharedPreferences
+        // This is a blocking operation but necessary for attachBaseContext
+        val languageCode = runBlocking {
+            newBase.dataStore.data.map { preferences ->
+                preferences[LANGUAGE_KEY] ?: Locale.getDefault().language
+            }.first()
+        }
         
         // Apply the locale
         val locale = Locale(languageCode)
@@ -44,6 +60,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        // Check if this is a restart due to language change
+        val isLanguageChangeRestart = intent.getBooleanExtra("LANGUAGE_CHANGE", false)
+        if (isLanguageChangeRestart) {
+            Log.d("MainActivity", "Restarting due to language change")
+        }
         
         // Handle database initialization errors if they occur
         handleDatabaseErrors()
@@ -62,7 +84,9 @@ class MainActivity : ComponentActivity() {
         }.value
         
         // Apply current language settings
-        languageViewModel.updateLocale(this, languageViewModel.selectedLanguage.value.code)
+        val currentLanguage = languageViewModel.selectedLanguage.value
+        Log.d("MainActivity", "Current language: ${currentLanguage.displayName} (${currentLanguage.code})")
+        languageViewModel.updateLocale(this, currentLanguage.code)
         
         setContent {
             // Get current accessibility settings
@@ -70,6 +94,7 @@ class MainActivity : ComponentActivity() {
             
             // Observe language changes
             val currentLanguage by languageViewModel.selectedLanguage.collectAsState()
+            Log.d("MainActivity", "Language in Compose: ${currentLanguage.displayName}")
             
             // Apply accessibility settings to theme if needed
             MoneyMindTheme(

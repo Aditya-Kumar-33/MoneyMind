@@ -71,16 +71,27 @@ class LanguageViewModel(private val context: Context) : ViewModel() {
      */
     fun setLanguage(language: AppLanguage) {
         viewModelScope.launch {
-            // Update the stored preference
-            context.dataStore.edit { preferences ->
-                preferences[LANGUAGE_KEY] = language.code
+            try {
+                // Update the stored preference
+                context.dataStore.edit { preferences ->
+                    preferences[LANGUAGE_KEY] = language.code
+                }
+                
+                // Log the language change
+                android.util.Log.d("LanguageViewModel", "Language changed to: ${language.displayName} (${language.code})")
+                
+                // Apply the locale change
+                updateLocale(context, language.code)
+                
+                // Ensure the locale was set correctly
+                val currentLocale = Locale.getDefault()
+                android.util.Log.d("LanguageViewModel", "Current locale: ${currentLocale.language}, ${currentLocale.displayName}")
+                
+                // Restart activity to apply changes to all UI components
+                restartActivity(context)
+            } catch (e: Exception) {
+                android.util.Log.e("LanguageViewModel", "Error changing language", e)
             }
-            
-            // Apply the locale change
-            updateLocale(context, language.code)
-            
-            // Restart activity to apply changes to all UI components
-            restartActivity(context)
         }
     }
     
@@ -103,20 +114,35 @@ class LanguageViewModel(private val context: Context) : ViewModel() {
      * Restart the current activity to refresh all UI components
      */
     private fun restartActivity(context: Context) {
-        // Find the activity from context
-        val activity = getActivity(context)
-        
-        activity?.let {
+        try {
+            // Find the activity from context
+            val activity = getActivity(context)
+            
+            if (activity == null) {
+                android.util.Log.e("LanguageViewModel", "Could not find activity from context")
+                return
+            }
+            
+            android.util.Log.d("LanguageViewModel", "Restarting activity: ${activity.javaClass.simpleName}")
+            
             // Create a new intent for the current activity
             val intent = Intent(activity, activity::class.java)
             // Clear the back stack
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            
+            // Add a special flag to indicate this is a language change restart
+            intent.putExtra("LANGUAGE_CHANGE", true)
+            
             // Start the activity
             activity.startActivity(intent)
+            
             // Apply transition animation
             activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            
             // Finish the current activity
             activity.finish()
+        } catch (e: Exception) {
+            android.util.Log.e("LanguageViewModel", "Error restarting activity", e)
         }
     }
     
