@@ -73,6 +73,7 @@ import com.example.moneymind.accessibility.TalkBackButton
 import com.example.moneymind.language.AppLanguage
 import com.example.moneymind.language.LanguageViewModel
 import com.example.moneymind.utils.accessibilityHeading
+import androidx.compose.foundation.BorderStroke
 
 @Composable
 fun ProfilePage(
@@ -83,12 +84,13 @@ fun ProfilePage(
     languageViewModel: LanguageViewModel? = null
 ) {
     val gradientColors = listOf(
-        Color(0xFF7FBB92), // Light green
-        Color(0xFF81A38A)  // Darker green
+        Color(0xFF161C18), // Dark green-black
+        Color(0xFF0A0F0C)  // Darker green-black
     )
     
     Box(
         modifier = modifier.fillMaxSize()
+            .background(Color(0xFF070906)) // Dark background like ChartPage
     ) {
         Column(
             modifier = Modifier
@@ -146,6 +148,7 @@ fun ProfilePage(
                 text = stringResource(id = R.string.profile_title),
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
+                color = Color.White,
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 16.dp)
                     .accessibilityHeading()
@@ -158,7 +161,10 @@ fun ProfilePage(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF161C18) // Dark card background
+                    )
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp)
@@ -177,7 +183,10 @@ fun ProfilePage(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-                    shape = RoundedCornerShape(16.dp)
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color(0xFF161C18) // Dark card background
+                    )
                 ) {
                     Column(
                         modifier = Modifier.padding(16.dp)
@@ -186,6 +195,7 @@ fun ProfilePage(
                             text = stringResource(id = R.string.accessibility_title),
                             fontWeight = FontWeight.Bold,
                             fontSize = 20.sp,
+                            color = Color.White,
                             modifier = Modifier
                                 .padding(bottom = 16.dp)
                                 .accessibilityHeading()
@@ -196,13 +206,14 @@ fun ProfilePage(
                             text = "TalkBack",
                             fontWeight = FontWeight.Medium,
                             fontSize = 16.sp,
+                            color = Color.White,
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
                         
                         Text(
                             text = "Enable TalkBack to get spoken feedback as you navigate",
                             fontSize = 14.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            color = Color.Gray,
                             modifier = Modifier.padding(bottom = 12.dp)
                         )
                         
@@ -211,7 +222,10 @@ fun ProfilePage(
                             backgroundColor = MaterialTheme.colorScheme.primary
                         )
                         
-                        Divider(modifier = Modifier.padding(vertical = 16.dp))
+                        Divider(
+                            modifier = Modifier.padding(vertical = 16.dp),
+                            color = Color.DarkGray
+                        )
                         
                         // Large Text toggle
                         Row(
@@ -226,7 +240,7 @@ fun ProfilePage(
                             Icon(
                                 imageVector = Icons.Default.TextFormat,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = Color(0xFF81A38A),
                                 modifier = Modifier.size(24.dp)
                             )
                             
@@ -238,13 +252,14 @@ fun ProfilePage(
                                 Text(
                                     text = stringResource(id = R.string.large_text),
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 16.sp
+                                    fontSize = 16.sp,
+                                    color = Color.White
                                 )
                                 
                                 Text(
                                     text = "Increase text size for better readability",
                                     fontSize = 14.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = Color.Gray
                                 )
                             }
                             
@@ -254,7 +269,10 @@ fun ProfilePage(
                             )
                         }
                         
-                        Divider(modifier = Modifier.padding(vertical = 8.dp))
+                        Divider(
+                            modifier = Modifier.padding(vertical = 8.dp),
+                            color = Color.DarkGray
+                        )
                         
                         // High Contrast toggle
                         Row(
@@ -269,7 +287,7 @@ fun ProfilePage(
                             Icon(
                                 imageVector = Icons.Default.Contrast,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.primary,
+                                tint = Color(0xFF81A38A),
                                 modifier = Modifier.size(24.dp)
                             )
                             
@@ -281,13 +299,14 @@ fun ProfilePage(
                                 Text(
                                     text = stringResource(id = R.string.high_contrast),
                                     fontWeight = FontWeight.Medium,
-                                    fontSize = 16.sp
+                                    fontSize = 16.sp,
+                                    color = Color.White
                                 )
                                 
                                 Text(
                                     text = "Increase contrast for better visibility",
                                     fontSize = 14.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = Color.Gray
                                 )
                             }
                             
@@ -365,13 +384,13 @@ fun LanguageSelector(
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .background(Color(0xFF81A38A)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = Icons.Default.Language,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                tint = Color.Black,
                 modifier = Modifier.size(24.dp)
             )
         }
@@ -382,14 +401,15 @@ fun LanguageSelector(
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 16.dp),
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            color = Color.White
         )
         
         // Language dropdown
         Box(
             modifier = Modifier
                 .background(
-                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                    color = Color(0xFF81A38A).copy(alpha = 0.3f),
                     shape = RoundedCornerShape(8.dp)
                 )
                 .clickable { expanded = true }
@@ -403,7 +423,7 @@ fun LanguageSelector(
             ) {
                 Text(
                     text = selectedLanguage.displayName,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = Color.White,
                     fontWeight = FontWeight.Medium,
                     fontSize = 14.sp
                 )
@@ -413,7 +433,7 @@ fun LanguageSelector(
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface,
+                    tint = Color.White,
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -423,14 +443,18 @@ fun LanguageSelector(
                 onDismissRequest = { expanded = false },
                 modifier = Modifier
                     .width(180.dp)
-                    .background(MaterialTheme.colorScheme.surface)
+                    .background(Color(0xFF212121))
             ) {
                 languages.forEach { language ->
                     DropdownMenuItem(
                         text = { 
                             Text(
                                 text = language.displayName,
-                                fontWeight = if (language == selectedLanguage) FontWeight.Bold else FontWeight.Normal
+                                fontWeight = if (language == selectedLanguage) FontWeight.Bold else FontWeight.Normal,
+                                color = if (language == selectedLanguage) 
+                                    Color(0xFF81A38A)
+                                else
+                                    Color.White
                             ) 
                         },
                         onClick = {
@@ -439,16 +463,16 @@ fun LanguageSelector(
                         },
                         colors = MenuDefaults.itemColors(
                             textColor = if (language == selectedLanguage) 
-                                MaterialTheme.colorScheme.primary
+                                Color(0xFF81A38A)
                             else
-                                MaterialTheme.colorScheme.onSurface
+                                Color.White
                         ),
                         leadingIcon = if (language == selectedLanguage) {
                             {
                                 Icon(
                                     imageVector = Icons.Default.CheckCircle,
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
+                                    tint = Color(0xFF81A38A),
                                     modifier = Modifier.size(16.dp)
                                 )
                             }
@@ -472,8 +496,10 @@ fun LanguageSelector(
                     contentDescription = "Apply language change to ${selectedLanguage.displayName}"
                 },
             colors = ButtonDefaults.outlinedButtonColors(
-                contentColor = MaterialTheme.colorScheme.primary
-            )
+                contentColor = Color(0xFF81A38A),
+                containerColor = Color.Transparent
+            ),
+            border = BorderStroke(1.dp, Color(0xFF81A38A))
         ) {
             Text(
                 text = "Apply ${selectedLanguage.displayName}",
@@ -505,13 +531,13 @@ fun SettingsItem(
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
+                .background(Color(0xFF81A38A)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                tint = Color.Black,
                 modifier = Modifier.size(24.dp)
             )
         }
@@ -521,7 +547,8 @@ fun SettingsItem(
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 16.dp),
-            fontSize = 16.sp
+            fontSize = 16.sp,
+            color = Color.White
         )
         
         Icon(
