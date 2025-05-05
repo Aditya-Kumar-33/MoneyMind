@@ -126,33 +126,6 @@ fun ProfilePage(
                             }
                         )
                     }
-                    
-                    Spacer(modifier = Modifier.height(8.dp))
-                    
-                    // Edit profile button
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(20.dp))
-                            .clickable { /* Edit profile action */ }
-                            .background(Color.White.copy(alpha = 0.2f))
-                            .padding(horizontal = 12.dp, vertical = 6.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(16.dp)
-                        )
-                        
-                        Spacer(modifier = Modifier.padding(4.dp))
-                        
-                        Text(
-                            text = stringResource(id = R.string.edit),
-                            color = Color.White,
-                            fontSize = 14.sp
-                        )
-                    }
                 }
             }
             
