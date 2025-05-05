@@ -20,14 +20,10 @@ import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.ColorLens
-import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Security
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -166,39 +162,6 @@ fun ProfilePage(
                         title = stringResource(id = R.string.profile_accessibility),
                         onClick = {
                             navController.navigate(ACCESSIBILITY_SETTINGS_ROUTE)
-                        }
-                    )
-                    
-                    Divider(modifier = Modifier.padding(vertical = 8.dp))
-                    
-                    // Appearance settings
-                    SettingsItem(
-                        icon = Icons.Default.ColorLens,
-                        title = stringResource(id = R.string.profile_appearance),
-                        onClick = {
-                            navController.navigate(APPEARANCE_SETTINGS_ROUTE)
-                        }
-                    )
-                    
-                    Divider(modifier = Modifier.padding(vertical = 8.dp))
-                    
-                    // Notifications settings
-                    SettingsItem(
-                        icon = Icons.Default.Notifications,
-                        title = stringResource(id = R.string.profile_notifications),
-                        onClick = {
-                            navController.navigate(NOTIFICATIONS_SETTINGS_ROUTE)
-                        }
-                    )
-                    
-                    Divider(modifier = Modifier.padding(vertical = 8.dp))
-                    
-                    // Security settings
-                    SettingsItem(
-                        icon = Icons.Default.Security,
-                        title = stringResource(id = R.string.profile_security),
-                        onClick = {
-                            navController.navigate(SECURITY_SETTINGS_ROUTE)
                         }
                     )
                 }

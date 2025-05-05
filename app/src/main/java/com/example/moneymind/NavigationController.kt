@@ -182,27 +182,6 @@ fun NavigationController(
                             languageViewModel = languageViewModel
                         )
                     }
-                    
-                    // Appearance settings route
-                    composable(APPEARANCE_SETTINGS_ROUTE) {
-                        AppearanceSettingsPage(
-                            navController = navController
-                        )
-                    }
-                    
-                    // Notifications settings route
-                    composable(NOTIFICATIONS_SETTINGS_ROUTE) {
-                        NotificationsSettingsPage(
-                            navController = navController
-                        )
-                    }
-                    
-                    // Security settings route
-                    composable(SECURITY_SETTINGS_ROUTE) {
-                        SecuritySettingsPage(
-                            navController = navController
-                        )
-                    }
                 }
             }
         )
