@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">मनी माइंड</string>
+    
+    <!-- Common Labels -->
+    <string name="save">सहेजें</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="delete">हटाएं</string>
+    <string name="edit">संपादित करें</string>
+    <string name="back">पीछे</string>
+    <string name="next">आगे</string>
+    <string name="logout">लॉगआउट</string>
+    <string name="login">लॉगिन</string>
+    <string name="signup">पंजीकरण करें</string>
+    <string name="welcome">स्वागत है</string>
+    <string name="email">ईमेल</string>
+    <string name="password">पासवर्ड</string>
+    
+    <!-- Navigation -->
+    <string name="nav_notes">नोट्स</string>
+    <string name="nav_savings">बचत</string>
+    <string name="nav_chart">चार्ट</string>
+    <string name="nav_profile">प्रोफाइल</string>
+    
+    <!-- Profile Page -->
+    <string name="profile_title">प्रोफाइल और सेटिंग्स</string>
+    <string name="profile_personal_info">व्यक्तिगत जानकारी</string>
+    <string name="profile_language">भाषा</string>
+    <string name="profile_accessibility">पहुंच</string>
+    <string name="profile_appearance">उपस्थिति</string>
+    <string name="profile_notifications">सूचनाएं</string>
+    <string name="profile_security">सुरक्षा</string>
+    <string name="profile_email">ईमेल</string>
+    <string name="profile_signout">साइन आउट</string>
+    
+    <!-- Accessibility -->
+    <string name="accessibility_title">पहुंच सेटिंग्स</string>
+    <string name="talkback_button">टॉकबैक सक्रिय करें</string>
+    <string name="high_contrast">उच्च कंट्रास्ट</string>
+    <string name="large_text">बड़ा टेक्स्ट</string>
+    <string name="verbose_announcements">विस्तृत घोषणाएं</string>
+    
+    <!-- Languages -->
+    <string name="language_title">भाषा चुनें</string>
+    <string name="language_english">अंग्रेज़ी</string>
+    <string name="language_spanish">स्पेनिश</string>
+    <string name="language_french">फ्रेंच</string>
+    <string name="language_german">जर्मन</string>
+    <string name="language_hindi">हिन्दी</string>
+
+    <!-- Recommendation Dialog -->
+    <string name="recommendation_title">बजट सिफारिशें</string>
+    <string name="close">बंद करें</string>
+    <string name="got_it">समझ गया</string>
+    <string name="no_recommendations">इस समय कोई सिफारिशें उपलब्ध नहीं हैं।</string>
+    <string name="get_budget_recommendations">बजट सिफारिशें प्राप्त करें</string>
+    <string name="update_gemini_api_key">Gemini API कुंजी अपडेट करें</string>
+    <string name="set_gemini_api_key">Gemini API कुंजी सेट करें</string>
+    <string name="using_gemini_ai">व्यक्तिगत सिफारिशों के लिए Gemini AI का उपयोग किया जा रहा है</string>
+    <string name="using_local_recommendations">स्थानीय सिफारिशों का उपयोग किया जा रहा है (कोई Gemini API कुंजी सेट नहीं है)</string>
+    
+    <!-- Chart Page -->
+    <string name="analytics">विश्लेषण</string>
+    <string name="previous_month">पिछला महीना</string>
+    <string name="next_month">अगला महीना</string>
+    <string name="expenses">व्यय</string>
+    <string name="income">आय</string>
+    <string name="breakdown">विभाजन</string>
+    <string name="no_expense_data">इस महीने के लिए कोई व्यय डेटा नहीं</string>
+    <string name="no_income_data">इस महीने के लिए कोई आय डेटा नहीं</string>
+    <string name="total_expense">कुल व्यय</string>
+    <string name="total_income">कुल आय</string>
+    <string name="no_expense_data_short">कोई व्यय डेटा नहीं</string>
+    <string name="no_income_data_short">कोई आय डेटा नहीं</string>
+</resources> 

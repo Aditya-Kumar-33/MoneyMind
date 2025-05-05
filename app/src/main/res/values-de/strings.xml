@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">Money Mind</string>
+    
+    <!-- Common Labels -->
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="delete">Löschen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="back">Zurück</string>
+    <string name="next">Weiter</string>
+    <string name="logout">Abmelden</string>
+    <string name="login">Anmelden</string>
+    <string name="signup">Registrieren</string>
+    <string name="welcome">Willkommen</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Passwort</string>
+    
+    <!-- Navigation -->
+    <string name="nav_notes">Notizen</string>
+    <string name="nav_savings">Ersparnisse</string>
+    <string name="nav_chart">Diagramm</string>
+    <string name="nav_profile">Profil</string>
+    
+    <!-- Profile Page -->
+    <string name="profile_title">Profil &amp; Einstellungen</string>
+    <string name="profile_personal_info">Persönliche Informationen</string>
+    <string name="profile_language">Sprache</string>
+    <string name="profile_accessibility">Barrierefreiheit</string>
+    <string name="profile_appearance">Erscheinungsbild</string>
+    <string name="profile_notifications">Benachrichtigungen</string>
+    <string name="profile_security">Sicherheit</string>
+    <string name="profile_email">E-Mail</string>
+    <string name="profile_signout">Abmelden</string>
+    
+    <!-- Accessibility -->
+    <string name="accessibility_title">Barrierefreiheit-Einstellungen</string>
+    <string name="talkback_button">TalkBack aktivieren</string>
+    <string name="high_contrast">Hoher Kontrast</string>
+    <string name="large_text">Großer Text</string>
+    <string name="verbose_announcements">Ausführliche Ansagen</string>
+    
+    <!-- Languages -->
+    <string name="language_title">Sprache auswählen</string>
+    <string name="language_english">Englisch</string>
+    <string name="language_spanish">Spanisch</string>
+    <string name="language_french">Französisch</string>
+    <string name="language_german">Deutsch</string>
+    <string name="language_hindi">Hindi</string>
+
+    <!-- Recommendation Dialog -->
+    <string name="recommendation_title">Budget-Empfehlungen</string>
+    <string name="close">Schließen</string>
+    <string name="got_it">Verstanden</string>
+    <string name="no_recommendations">Derzeit sind keine Empfehlungen verfügbar.</string>
+    <string name="get_budget_recommendations">Budget-Empfehlungen erhalten</string>
+    <string name="update_gemini_api_key">Gemini API-Schlüssel aktualisieren</string>
+    <string name="set_gemini_api_key">Gemini API-Schlüssel festlegen</string>
+    <string name="using_gemini_ai">Verwendung von Gemini AI für personalisierte Empfehlungen</string>
+    <string name="using_local_recommendations">Verwendung lokaler Empfehlungen (kein Gemini API-Schlüssel festgelegt)</string>
+    
+    <!-- Chart Page -->
+    <string name="analytics">Analysen</string>
+    <string name="previous_month">Vorheriger Monat</string>
+    <string name="next_month">Nächster Monat</string>
+    <string name="expenses">Ausgaben</string>
+    <string name="income">Einkommen</string>
+    <string name="breakdown">Aufschlüsselung</string>
+    <string name="no_expense_data">Keine Ausgabendaten für diesen Monat</string>
+    <string name="no_income_data">Keine Einkommensdaten für diesen Monat</string>
+    <string name="total_expense">Gesamtausgaben</string>
+    <string name="total_income">Gesamteinkommen</string>
+    <string name="no_expense_data_short">Keine Ausgabendaten</string>
+    <string name="no_income_data_short">Keine Einkommensdaten</string>
+</resources> 
