@@ -20,17 +20,7 @@ import com.example.moneymind.ui.theme.MoneyMindTheme
 import java.util.Locale
 import android.widget.Toast
 import java.io.File
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
-
-// DataStore setup at app level
-private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "language_settings")
-private val LANGUAGE_KEY = stringPreferencesKey("selected_language")
+import android.content.SharedPreferences
 
 class MainActivity : ComponentActivity() {
     // Initialize ViewModels at class level for lifecycle awareness
@@ -38,13 +28,9 @@ class MainActivity : ComponentActivity() {
     
     // We need to override attachBaseContext to set the locale before the Activity is created
     override fun attachBaseContext(newBase: Context) {
-        // Get the saved language preference from DataStore instead of SharedPreferences
-        // This is a blocking operation but necessary for attachBaseContext
-        val languageCode = runBlocking {
-            newBase.dataStore.data.map { preferences ->
-                preferences[LANGUAGE_KEY] ?: Locale.getDefault().language
-            }.first()
-        }
+        // Use SharedPreferences for initial context creation to avoid DataStore conflicts
+        val sharedPreferences = newBase.getSharedPreferences("language_settings_prefs", Context.MODE_PRIVATE)
+        val languageCode = sharedPreferences.getString("selected_language", Locale.getDefault().language) ?: "en"
         
         // Apply the locale
         val locale = Locale(languageCode)
@@ -85,6 +71,10 @@ class MainActivity : ComponentActivity() {
         
         // Apply current language settings
         val currentLanguage = languageViewModel.selectedLanguage.value
+        
+        // Also save to SharedPreferences for attachBaseContext to use on next launch
+        saveLanguageToSharedPrefs(currentLanguage.code)
+        
         Log.d("MainActivity", "Current language: ${currentLanguage.displayName} (${currentLanguage.code})")
         languageViewModel.updateLocale(this, currentLanguage.code)
         
@@ -111,6 +101,13 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+    
+    // Helper method to save language selection to SharedPreferences 
+    // for use in attachBaseContext
+    private fun saveLanguageToSharedPrefs(languageCode: String) {
+        val sharedPreferences = getSharedPreferences("language_settings_prefs", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("selected_language", languageCode).apply()
     }
     
     /**
@@ -155,7 +152,10 @@ class MainActivity : ComponentActivity() {
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         if (::languageViewModel.isInitialized) {
-            languageViewModel.updateLocale(this, languageViewModel.selectedLanguage.value.code)
+            val languageCode = languageViewModel.selectedLanguage.value.code
+            languageViewModel.updateLocale(this, languageCode)
+            // Also update SharedPreferences
+            saveLanguageToSharedPrefs(languageCode)
         }
     }
 }

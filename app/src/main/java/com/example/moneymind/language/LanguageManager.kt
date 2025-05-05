@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Build
 import androidx.compose.runtime.State
@@ -23,6 +24,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Locale
+
+// Global DataStore implementation to ensure singleton pattern
+// This should be the only declaration of dataStore for language settings in the app
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "language_settings")
+
+// Preference key for language
+private val LANGUAGE_KEY = stringPreferencesKey("selected_language")
 
 // Supported languages enum
 enum class AppLanguage(val code: String, val displayName: String) {
@@ -44,14 +52,6 @@ enum class AppLanguage(val code: String, val displayName: String) {
  */
 class LanguageViewModel(private val context: Context) : ViewModel() {
 
-    companion object {
-        // DataStore setup
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "language_settings")
-        
-        // Preference key
-        private val LANGUAGE_KEY = stringPreferencesKey("selected_language")
-    }
-
     // Flow of the selected language from DataStore
     private val languageFlow: Flow<AppLanguage> = context.dataStore.data
         .map { preferences ->
@@ -72,10 +72,14 @@ class LanguageViewModel(private val context: Context) : ViewModel() {
     fun setLanguage(language: AppLanguage) {
         viewModelScope.launch {
             try {
-                // Update the stored preference
+                // Update the stored preference in DataStore
                 context.dataStore.edit { preferences ->
                     preferences[LANGUAGE_KEY] = language.code
                 }
+                
+                // Also save to SharedPreferences for attachBaseContext to use on next launch
+                val sharedPreferences = context.getSharedPreferences("language_settings_prefs", Context.MODE_PRIVATE)
+                sharedPreferences.edit().putString("selected_language", language.code).apply()
                 
                 // Log the language change
                 android.util.Log.d("LanguageViewModel", "Language changed to: ${language.displayName} (${language.code})")
