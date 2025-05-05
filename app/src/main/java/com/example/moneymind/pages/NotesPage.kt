@@ -2,6 +2,7 @@ package com.example.moneymind.pages
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,6 +17,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
@@ -24,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.moneymind.AuthViewModel
 import com.example.moneymind.NotesViewModel
@@ -42,6 +45,11 @@ fun NotesPage(
     val inputText by notesViewModel.inputText.observeAsState("")
     val errorMessage by notesViewModel.errorMessage.observeAsState()
     val context = LocalContext.current
+    
+    // State for dialog visibility
+    var showAddNoteDialog by remember { mutableStateOf(false) }
+    // State for dialog text input
+    var dialogNoteText by remember { mutableStateOf("") }
     
     // Show error message if any
     LaunchedEffect(errorMessage) {
@@ -90,6 +98,109 @@ fun NotesPage(
         return
     }
     
+    // Add Note Dialog
+    if (showAddNoteDialog) {
+        Dialog(
+            onDismissRequest = { 
+                showAddNoteDialog = false
+                dialogNoteText = ""
+            }
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF1C1C1C)
+                )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Add New Note",
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 18.sp,
+                        color = Color(0xFF7FBB92),
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                    
+                    // Multi-line text field for note input
+                    TextField(
+                        value = dialogNoteText,
+                        onValueChange = { dialogNoteText = it },
+                        placeholder = { Text("Enter your note here...", color = Color.Gray) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
+                            .semantics {
+                                contentDescription = "Note text input field"
+                            },
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color(0xFF262626),
+                            unfocusedContainerColor = Color(0xFF262626),
+                            cursorColor = Color(0xFF7FBB92),
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.White,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
+                        ),
+                        singleLine = false
+                    )
+                    
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        // Cancel button
+                        OutlinedButton(
+                            onClick = { 
+                                showAddNoteDialog = false
+                                dialogNoteText = ""
+                            },
+                            modifier = Modifier.weight(1f),
+                            shape = RoundedCornerShape(8.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                contentColor = Color(0xFF7FBB92)
+                            ),
+                            border = ButtonDefaults.outlinedButtonBorder.copy(
+                                brush = SolidColor(Color(0xFF7FBB92))
+                            )
+                        ) {
+                            Text("Cancel")
+                        }
+                        
+                        // Save button
+                        Button(
+                            onClick = { 
+                                if (dialogNoteText.isNotBlank()) {
+                                    notesViewModel.insertNote(dialogNoteText)
+                                    dialogNoteText = ""
+                                    showAddNoteDialog = false
+                                } else {
+                                    Toast.makeText(context, "Note cannot be empty", Toast.LENGTH_SHORT).show()
+                                }
+                            },
+                            modifier = Modifier.weight(1f),
+                            shape = RoundedCornerShape(8.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFF7FBB92)
+                            )
+                        ) {
+                            Text("Save")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -115,36 +226,33 @@ fun NotesPage(
                     }
             )
             
-            // Add Note Input
+            // Add Note Input (now clickable to open dialog)
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = 16.dp)
+                    .clickable { 
+                        showAddNoteDialog = true 
+                        dialogNoteText = ""
+                    },
                 shape = RoundedCornerShape(8.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFF1C1C1C)
                 )
             ) {
-                TextField(
-                    value = inputText,
-                    onValueChange = { notesViewModel.updateInputText(it) },
-                    placeholder = { Text("Add Note...", color = Color.Gray) },
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .semantics {
-                            contentDescription = "Input field to add a new note"
-                        },
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        cursorColor = Color(0xFF7FBB92),
-                        focusedTextColor = Color.White,
-                        unfocusedTextColor = Color.White,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    ),
-                    singleLine = true
-                )
+                        .padding(16.dp)
+                ) {
+                    Text(
+                        text = "Add Note...", 
+                        color = Color.Gray,
+                        modifier = Modifier.semantics {
+                            contentDescription = "Click to add a new note"
+                        }
+                    )
+                }
             }
             
             // Empty state message when no notes
@@ -174,27 +282,6 @@ fun NotesPage(
                     }
                 }
             }
-        }
-        
-        // FAB with "+" icon at bottom center
-        FloatingActionButton(
-            onClick = { notesViewModel.insertNote(inputText) },
-            shape = CircleShape,
-            containerColor = Color(0xFF7FBB92),
-            contentColor = Color.White,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp)
-                .size(56.dp)
-                .semantics {
-                    contentDescription = "Add note button"
-                }
-        ) {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = null,
-                tint = Color.White
-            )
         }
     }
 }
