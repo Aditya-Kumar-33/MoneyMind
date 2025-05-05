@@ -27,6 +27,8 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.TextFormat
+import androidx.compose.material.icons.filled.Contrast
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -41,6 +43,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -65,7 +68,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.moneymind.AuthViewModel
 import com.example.moneymind.R
-import com.example.moneymind.ACCESSIBILITY_SETTINGS_ROUTE
 import com.example.moneymind.accessibility.AccessibilityViewModel
 import com.example.moneymind.accessibility.TalkBackButton
 import com.example.moneymind.language.AppLanguage
@@ -139,50 +141,41 @@ fun ProfilePage(
                 }
             }
             
-            // Settings section
-            Card(
+            // Profile & Settings heading outside any card
+            Text(
+                text = stringResource(id = R.string.profile_title),
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.profile_title),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
-                        modifier = Modifier
-                            .padding(bottom = 16.dp)
-                            .accessibilityHeading()
-                    )
-                    
-                    // Language dropdown
-                    if (languageViewModel != null) {
-                        LanguageSelector(languageViewModel = languageViewModel)
-                    }
-                    
-                    Divider(modifier = Modifier.padding(vertical = 8.dp))
-                    
-                    // Accessibility settings
-                    SettingsItem(
-                        icon = Icons.Default.AccessibilityNew,
-                        title = stringResource(id = R.string.profile_accessibility),
-                        onClick = {
-                            navController.navigate(ACCESSIBILITY_SETTINGS_ROUTE)
-                        }
-                    )
-                }
-            }
+                    .padding(horizontal = 16.dp, vertical = 16.dp)
+                    .accessibilityHeading()
+            )
             
-            // TalkBack button (direct access)
-            if (accessibilityViewModel != null) {
+            // Language section
+            if (languageViewModel != null) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        LanguageSelector(languageViewModel = languageViewModel)
+                    }
+                }
+            }
+            
+            // Accessibility Settings section
+            if (accessibilityViewModel != null) {
+                val accessibilitySettings by accessibilityViewModel.settings.collectAsState()
+                
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
                     elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
                     shape = RoundedCornerShape(16.dp)
                 ) {
@@ -192,16 +185,117 @@ fun ProfilePage(
                         Text(
                             text = stringResource(id = R.string.accessibility_title),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp,
+                            fontSize = 20.sp,
                             modifier = Modifier
                                 .padding(bottom = 16.dp)
                                 .accessibilityHeading()
+                        )
+                        
+                        // TalkBack button
+                        Text(
+                            text = "TalkBack",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                        
+                        Text(
+                            text = "Enable TalkBack to get spoken feedback as you navigate",
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(bottom = 12.dp)
                         )
                         
                         TalkBackButton(
                             modifier = Modifier.fillMaxWidth(),
                             backgroundColor = MaterialTheme.colorScheme.primary
                         )
+                        
+                        Divider(modifier = Modifier.padding(vertical = 16.dp))
+                        
+                        // Large Text toggle
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .semantics {
+                                    contentDescription = "Large text mode is ${if (accessibilitySettings.largeTextEnabled) "enabled" else "disabled"}"
+                                }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.TextFormat,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(horizontal = 16.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.large_text),
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 16.sp
+                                )
+                                
+                                Text(
+                                    text = "Increase text size for better readability",
+                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                            
+                            Switch(
+                                checked = accessibilitySettings.largeTextEnabled,
+                                onCheckedChange = { accessibilityViewModel.setLargeTextEnabled(it) }
+                            )
+                        }
+                        
+                        Divider(modifier = Modifier.padding(vertical = 8.dp))
+                        
+                        // High Contrast toggle
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp)
+                                .semantics {
+                                    contentDescription = "High contrast mode is ${if (accessibilitySettings.highContrastEnabled) "enabled" else "disabled"}"
+                                }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Contrast,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(24.dp)
+                            )
+                            
+                            Column(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(horizontal = 16.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.high_contrast),
+                                    fontWeight = FontWeight.Medium,
+                                    fontSize = 16.sp
+                                )
+                                
+                                Text(
+                                    text = "Increase contrast for better visibility",
+                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                            
+                            Switch(
+                                checked = accessibilitySettings.highContrastEnabled,
+                                onCheckedChange = { accessibilityViewModel.setHighContrastEnabled(it) }
+                            )
+                        }
                     }
                 }
             }
