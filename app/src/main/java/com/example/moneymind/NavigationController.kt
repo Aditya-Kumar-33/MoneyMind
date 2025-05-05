@@ -27,9 +27,9 @@ import com.example.moneymind.ui.components.BottomNavItem
 import androidx.lifecycle.viewmodel.compose.viewModel
 import android.app.Application
 import androidx.compose.ui.platform.LocalContext
-
-// Route constant for accessibility settings
-const val ACCESSIBILITY_SETTINGS_ROUTE = "accessibility_settings"
+import com.example.moneymind.data.AppDatabase
+import com.example.moneymind.data.Transaction
+import com.example.moneymind.ui.components.TransactionDialog
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -46,6 +46,18 @@ fun NavigationController(
 
     // Determine if user is authenticated
     val isAuthenticated = authState is AuthState.Authenticated
+
+    // Get app context for database access
+    val context = LocalContext.current
+    
+    // Create TransactionViewModel
+    val transactionDao = remember { AppDatabase.getDatabase(context).transactionDao() }
+    val transactionViewModel: TransactionViewModel = viewModel(
+        factory = TransactionViewModelFactory(transactionDao)
+    )
+    
+    // State for transaction dialog
+    var showTransactionDialog by remember { mutableStateOf(false) }
 
     // Check current authentication status when the composable is first created
     LaunchedEffect(key1 = true) {
@@ -85,7 +97,9 @@ fun NavigationController(
             floatingActionButton = {
                 if (isAuthenticated) {
                     FloatingActionButton(
-                        onClick = { },
+                        onClick = { 
+                            showTransactionDialog = true 
+                        },
                         shape = CircleShape,
                         containerColor = Color(0xFF7FBB92),
                         contentColor = Color.White,
@@ -166,16 +180,20 @@ fun NavigationController(
                             dateString = date
                         )
                     }
-                    
-                    // Accessibility settings route
-                    composable(ACCESSIBILITY_SETTINGS_ROUTE) {
-                        AccessibilitySettingsPage(
-                            navController = navController,
-                            accessibilityViewModel = accessibilityViewModel
-                        )
-                    }
                 }
             }
         )
+        
+        // Show the transaction dialog if needed
+        if (showTransactionDialog) {
+            TransactionDialog(
+                isVisible = true,
+                onDismiss = { showTransactionDialog = false },
+                onSave = { transaction ->
+                    // Add transaction to database using ViewModel
+                    transactionViewModel.addTransaction(transaction)
+                }
+            )
+        }
     }
 }
