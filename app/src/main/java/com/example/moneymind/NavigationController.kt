@@ -24,6 +24,9 @@ import com.example.moneymind.accessibility.AccessibilityViewModel
 import com.example.moneymind.language.LanguageViewModel
 import com.example.moneymind.ui.components.BottomNavBar
 import com.example.moneymind.ui.components.BottomNavItem
+import androidx.lifecycle.viewmodel.compose.viewModel
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
 
 // Route constant for accessibility settings
 const val ACCESSIBILITY_SETTINGS_ROUTE = "accessibility_settings"
@@ -120,7 +123,11 @@ fun NavigationController(
 
                     // Main app screens with bottom navigation
                     composable(BottomNavItem.Notes.route) {
-                        NotesPage(modifier, navController, authViewModel)
+                        val application = LocalContext.current.applicationContext as Application
+                        val notesViewModel: NotesViewModel = viewModel(
+                            factory = NotesViewModelFactory(application)
+                        )
+                        NotesPage(modifier, navController, authViewModel, notesViewModel)
                     }
                     composable(BottomNavItem.Savings.route) {
                         Savings(modifier, navController, authViewModel)

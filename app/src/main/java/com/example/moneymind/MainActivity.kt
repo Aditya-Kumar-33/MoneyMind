@@ -3,6 +3,7 @@ package com.example.moneymind
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,8 @@ import com.example.moneymind.language.LanguageViewModel
 import com.example.moneymind.language.LanguageViewModelFactory
 import com.example.moneymind.ui.theme.MoneyMindTheme
 import java.util.Locale
+import android.widget.Toast
+import java.io.File
 
 class MainActivity : ComponentActivity() {
     // Initialize ViewModels at class level for lifecycle awareness
@@ -41,6 +44,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        // Handle database initialization errors if they occur
+        handleDatabaseErrors()
         
         // Initialize ViewModels
         val authViewModel: AuthViewModel by viewModels()
@@ -79,6 +85,44 @@ class MainActivity : ComponentActivity() {
                     languageViewModel = languageViewModel
                 )
             }
+        }
+    }
+    
+    /**
+     * Handle database initialization errors by checking if we need to delete the database
+     * This is a safety measure in case the migration fails
+     */
+    private fun handleDatabaseErrors() {
+        try {
+            // Check for database error flags that might have been set
+            val sharedPrefs = getSharedPreferences("database_settings", Context.MODE_PRIVATE)
+            val needsRecovery = sharedPrefs.getBoolean("needs_recovery", false)
+            
+            if (needsRecovery) {
+                // Clear the flag first
+                sharedPrefs.edit().putBoolean("needs_recovery", false).apply()
+                
+                // Delete the database file
+                val dbFile = getDatabasePath("money_mind_database")
+                if (dbFile.exists()) {
+                    val deleted = dbFile.delete()
+                    if (deleted) {
+                        Log.i("MainActivity", "Deleted corrupted database file")
+                        Toast.makeText(this, "Database reset due to previous errors", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Log.e("MainActivity", "Failed to delete corrupted database file")
+                    }
+                }
+                
+                // Delete related files
+                val dbShm = File(dbFile.path + "-shm")
+                if (dbShm.exists()) dbShm.delete()
+                
+                val dbWal = File(dbFile.path + "-wal")
+                if (dbWal.exists()) dbWal.delete()
+            }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error handling database recovery", e)
         }
     }
     
