@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.AccessibilityNew
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Language
@@ -291,31 +292,53 @@ fun LanguageSelector(
         )
         
         // Language dropdown
-        Box {
-            Text(
-                text = selectedLanguage.displayName,
-                modifier = Modifier
-                    .clickable { expanded = true }
-                    .padding(end = 8.dp),
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold
-            )
-            
-            Icon(
-                imageVector = Icons.Default.ArrowDropDown,
-                contentDescription = "Select language",
-                modifier = Modifier.clickable { expanded = true },
-                tint = MaterialTheme.colorScheme.primary
-            )
+        Box(
+            modifier = Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.3f),
+                    shape = RoundedCornerShape(8.dp)
+                )
+                .clickable { expanded = true }
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.semantics {
+                    contentDescription = "Current language: ${selectedLanguage.displayName}"
+                }
+            ) {
+                Text(
+                    text = selectedLanguage.displayName,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp
+                )
+                
+                Spacer(modifier = Modifier.width(4.dp))
+                
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
             
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.width(180.dp)
+                modifier = Modifier
+                    .width(180.dp)
+                    .background(MaterialTheme.colorScheme.surface)
             ) {
                 languages.forEach { language ->
                     DropdownMenuItem(
-                        text = { Text(language.displayName) },
+                        text = { 
+                            Text(
+                                text = language.displayName,
+                                fontWeight = if (language == selectedLanguage) FontWeight.Bold else FontWeight.Normal
+                            ) 
+                        },
                         onClick = {
                             selectedLanguage = language
                             expanded = false
@@ -325,7 +348,17 @@ fun LanguageSelector(
                                 MaterialTheme.colorScheme.primary
                             else
                                 MaterialTheme.colorScheme.onSurface
-                        )
+                        ),
+                        leadingIcon = if (language == selectedLanguage) {
+                            {
+                                Icon(
+                                    imageVector = Icons.Default.CheckCircle,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                            }
+                        } else null
                     )
                 }
             }
@@ -343,11 +376,15 @@ fun LanguageSelector(
                 .padding(top = 8.dp, bottom = 8.dp)
                 .semantics {
                     contentDescription = "Apply language change to ${selectedLanguage.displayName}"
-                }
+                },
+            colors = ButtonDefaults.outlinedButtonColors(
+                contentColor = MaterialTheme.colorScheme.primary
+            )
         ) {
             Text(
                 text = "Apply ${selectedLanguage.displayName}",
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Medium
             )
         }
     }
