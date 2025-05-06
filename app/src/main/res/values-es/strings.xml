@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">Money Mind</string>
+    
+    <!-- Common Labels -->
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="delete">Eliminar</string>
+    <string name="edit">Editar</string>
+    <string name="back">Atrás</string>
+    <string name="next">Siguiente</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="signup">Registrarse</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    
+    <!-- Transaction Dialog -->
+    <string name="add_transaction">Añadir nueva transacción</string>
+    <string name="transaction_type">Tipo de transacción</string>
+    <string name="expense">Gasto</string>
+    <string name="transaction_income">Ingreso</string>
+    <string name="amount">Cantidad*</string>
+    <string name="amount_error">Por favor, introduzca una cantidad válida</string>
+    <string name="date">Fecha*</string>
+    <string name="category">Categoría*</string>
+    <string name="category_error">Por favor, seleccione una categoría</string>
+    <string name="select_category">Seleccionar categoría:</string>
+    <string name="description">Descripción (Opcional)</string>
+    <string name="account_id">ID de cuenta (Opcional)</string>
+    
+    <!-- Navigation -->
+    <string name="nav_notes">Notas</string>
+    <string name="nav_savings">Ahorros</string>
+    <string name="nav_chart">Gráficos</string>
+    <string name="nav_profile">Perfil</string>
+    
+    <!-- Profile Page -->
+    <string name="profile_title">Perfil y Configuraciones</string>
+    <string name="profile_personal_info">Información Personal</string>
+    <string name="profile_language">Idioma</string>
+    <string name="profile_accessibility">Accesibilidad</string>
+    <string name="profile_appearance">Apariencia</string>
+    <string name="profile_notifications">Notificaciones</string>
+    <string name="profile_security">Seguridad</string>
+    <string name="profile_email">Correo electrónico</string>
+    <string name="profile_signout">Cerrar sesión</string>
+    
+    <!-- Accessibility -->
+    <string name="accessibility_title">Configuración de Accesibilidad</string>
+    <string name="talkback_button">Activar TalkBack</string>
+    <string name="high_contrast">Alto Contraste</string>
+    <string name="large_text">Texto Grande</string>
+    <string name="verbose_announcements">Anuncios Detallados</string>
+    
+    <!-- Languages -->
+    <string name="language_title">Seleccionar Idioma</string>
+    <string name="language_english">Inglés</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Francés</string>
+    <string name="language_german">Alemán</string>
+    <string name="language_hindi">Hindi</string>
+
+    <!-- Recommendation Dialog -->
+    <string name="recommendation_title">Recomendaciones de Presupuesto</string>
+    <string name="close">Cerrar</string>
+    <string name="got_it">Entendido</string>
+    <string name="no_recommendations">No hay recomendaciones disponibles en este momento.</string>
+    <string name="get_budget_recommendations">Obtener Recomendaciones de Presupuesto</string>
+    <string name="update_gemini_api_key">Actualizar Clave API de Gemini</string>
+    <string name="set_gemini_api_key">Configurar Clave API de Gemini</string>
+    <string name="using_gemini_ai">Usando Gemini AI para recomendaciones personalizadas</string>
+    <string name="using_local_recommendations">Usando recomendaciones locales (no hay clave API de Gemini configurada)</string>
+    
+    <!-- Chart Page -->
+    <string name="analytics">Análisis</string>
+    <string name="previous_month">Mes anterior</string>
+    <string name="next_month">Mes siguiente</string>
+    <string name="expenses">Gastos</string>
+    <string name="income">Ingresos</string>
+    <string name="breakdown">Desglose</string>
+    <string name="no_expense_data">No hay datos de gastos para este mes</string>
+    <string name="no_income_data">No hay datos de ingresos para este mes</string>
+    <string name="total_expense">Gasto Total</string>
+    <string name="total_income">Ingreso Total</string>
+    <string name="no_expense_data_short">No hay datos de gastos</string>
+    <string name="no_income_data_short">No hay datos de ingresos</string>
+</resources> 

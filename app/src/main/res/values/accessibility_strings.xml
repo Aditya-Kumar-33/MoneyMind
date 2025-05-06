@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_name">MoneyMind Accessibility Service</string>
+    <string name="accessibility_service_description">Enhanced accessibility service for MoneyMind app that improves TalkBack interaction with financial data and transaction information.</string>
+    
+    <!-- Common Accessibility Labels -->
+    <string name="accessibility_back_button">Back button</string>
+    <string name="accessibility_save_button">Save button</string>
+    <string name="accessibility_delete_button">Delete button</string>
+    <string name="accessibility_edit_button">Edit button</string>
+    <string name="accessibility_settings_button">Settings button</string>
+    
+    <!-- Transaction-specific Accessibility Labels -->
+    <string name="accessibility_transaction_item">Transaction %1$s, amount %2$s, date %3$s</string>
+    <string name="accessibility_credit_transaction">Credit transaction</string>
+    <string name="accessibility_debit_transaction">Debit transaction</string>
+    <string name="accessibility_transaction_category">Transaction category: %1$s</string>
+    <string name="accessibility_transaction_amount">Amount: %1$s</string>
+    <string name="accessibility_transaction_date">Date: %1$s</string>
+    
+    <!-- Form Field Accessibility -->
+    <string name="accessibility_email_field">Email address input field</string>
+    <string name="accessibility_password_field">Password input field, enter at least 8 characters</string>
+    <string name="accessibility_amount_field">Amount input field, enter numbers only</string>
+    <string name="accessibility_date_field">Date selector</string>
+    <string name="accessibility_category_field">Category selector</string>
+    
+    <!-- Screen Reader Announcements -->
+    <string name="accessibility_loading">Loading, please wait</string>
+    <string name="accessibility_login_success">Login successful, welcome</string>
+    <string name="accessibility_login_failed">Login failed, please try again</string>
+    <string name="accessibility_transaction_added">Transaction successfully added</string>
+    <string name="accessibility_transaction_updated">Transaction successfully updated</string>
+    <string name="accessibility_transaction_deleted">Transaction deleted</string>
+</resources> 
