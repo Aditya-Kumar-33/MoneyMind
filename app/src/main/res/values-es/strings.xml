@@ -1,77 +1,103 @@
 <resources>
     <string name="app_name">Money Mind</string>
-    
-    <!-- Common Labels -->
-    <string name="save">Guardar</string>
-    <string name="cancel">Cancelar</string>
-    <string name="delete">Eliminar</string>
-    <string name="edit">Editar</string>
-    <string name="back">Atrás</string>
-    <string name="next">Siguiente</string>
-    <string name="logout">Cerrar sesión</string>
-    <string name="login">Iniciar sesión</string>
-    <string name="signup">Registrarse</string>
-    <string name="welcome">Bienvenido</string>
-    <string name="email">Correo electrónico</string>
-    <string name="password">Contraseña</string>
-    
-    <!-- Transaction Dialog -->
-    <string name="add_transaction">Añadir nueva transacción</string>
-    <string name="transaction_type">Tipo de transacción</string>
-    <string name="expense">Gasto</string>
-    <string name="transaction_income">Ingreso</string>
-    <string name="amount">Cantidad*</string>
-    <string name="amount_error">Por favor, introduzca una cantidad válida</string>
-    <string name="date">Fecha*</string>
-    <string name="category">Categoría*</string>
-    <string name="category_error">Por favor, seleccione una categoría</string>
-    <string name="select_category">Seleccionar categoría:</string>
-    <string name="description">Descripción (Opcional)</string>
-    <string name="account_id">ID de cuenta (Opcional)</string>
-    
-    <!-- Navigation -->
-    <string name="nav_notes">Notas</string>
-    <string name="nav_savings">Ahorros</string>
-    <string name="nav_chart">Gráficos</string>
-    <string name="nav_profile">Perfil</string>
-    
-    <!-- Profile Page -->
-    <string name="profile_title">Perfil y Configuraciones</string>
-    <string name="profile_personal_info">Información Personal</string>
-    <string name="profile_language">Idioma</string>
-    <string name="profile_accessibility">Accesibilidad</string>
-    <string name="profile_appearance">Apariencia</string>
-    <string name="profile_notifications">Notificaciones</string>
-    <string name="profile_security">Seguridad</string>
-    <string name="profile_email">Correo electrónico</string>
-    <string name="profile_signout">Cerrar sesión</string>
-    
-    <!-- Accessibility -->
-    <string name="accessibility_title">Configuración de Accesibilidad</string>
-    <string name="talkback_button">Activar TalkBack</string>
-    <string name="high_contrast">Alto Contraste</string>
-    <string name="large_text">Texto Grande</string>
-    <string name="verbose_announcements">Anuncios Detallados</string>
-    
-    <!-- Languages -->
-    <string name="language_title">Seleccionar Idioma</string>
-    <string name="language_english">Inglés</string>
-    <string name="language_spanish">Español</string>
-    <string name="language_french">Francés</string>
-    <string name="language_german">Alemán</string>
-    <string name="language_hindi">Hindi</string>
 
-    <!-- Recommendation Dialog -->
-    <string name="recommendation_title">Recomendaciones de Presupuesto</string>
-    <string name="close">Cerrar</string>
-    <string name="got_it">Entendido</string>
-    <string name="no_recommendations">No hay recomendaciones disponibles en este momento.</string>
-    <string name="get_budget_recommendations">Obtener Recomendaciones de Presupuesto</string>
-    <string name="update_gemini_api_key">Actualizar Clave API de Gemini</string>
-    <string name="set_gemini_api_key">Configurar Clave API de Gemini</string>
-    <string name="using_gemini_ai">Usando Gemini AI para recomendaciones personalizadas</string>
-    <string name="using_local_recommendations">Usando recomendaciones locales (no hay clave API de Gemini configurada)</string>
-    
+    <!-- Common Labels -->
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="delete">Löschen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="back">Zurück</string>
+    <string name="next">Weiter</string>
+    <string name="logout">Abmelden</string>
+    <string name="login">Anmelden</string>
+    <string name="signup">Registrieren</string>
+    <string name="welcome">Willkommen</string>
+    <string name="email">E-Mail</string>
+    <string name="password">Passwort</string>
+    <string name="enabled">aktiviert</string>
+    <string name="disabled">deaktiviert</string>
+    <string name="ok">OK</string>
+    <string name="fullname">Vollständiger Name</string>
+    <string name="phone_number">Telefonnummer (Optional)</string>
+    <string name="create_account">Konto erstellen</string>
+    <string name="already_have_account">Haben Sie bereits ein Konto?</string>
+
+    <!-- Transaction Dialog -->
+    <string name="add_transaction">Neue Transaktion hinzufügen</string>
+    <string name="transaction_type">Transaktionstyp</string>
+    <string name="expense">Ausgabe</string>
+    <string name="transaction_income">Einnahme</string>
+    <string name="amount">Betrag*</string>
+    <string name="amount_error">Bitte geben Sie einen gültigen Betrag ein</string>
+    <string name="date">Datum*</string>
+    <string name="category">Kategorie*</string>
+    <string name="category_error">Bitte wählen Sie eine Kategorie</string>
+    <string name="select_category">Kategorie auswählen:</string>
+    <string name="description">Beschreibung (Optional)</string>
+    <string name="account_id">Konto-ID (Optional)</string>
+
+    <!-- API Key Dialog -->
+    <string name="set_api_key">Gemini API-Schlüssel festlegen</string>
+    <string name="api_key_help">Geben Sie Ihren Google Gemini API-Schlüssel ein, um personalisierte KI-gestützte Budgetempfehlungen zu erhalten.</string>
+    <string name="api_key_label">Gemini API-Schlüssel</string>
+    <string name="api_key_placeholder">Geben Sie Ihren Gemini API-Schlüssel ein</string>
+    <string name="hide_api_key">API-Schlüssel verbergen</string>
+    <string name="show_api_key">API-Schlüssel anzeigen</string>
+    <string name="api_key_storage_note">Ihr API-Schlüssel wird lokal auf Ihrem Gerät gespeichert.</string>
+    <string name="api_key_info">Sie können einen Gemini API-Schlüssel von Google AI Studio (ai.google.dev) erhalten.</string>
+    <string name="api_key_prefix_note">Stellen Sie sicher, dass Sie den gesamten API-Schlüssel einschließlich des \'AIza\'-Präfixes kopieren.</string>
+    <string name="api_key_troubleshooting">Wenn Sie Fehler erhalten, stellen Sie sicher, dass Sie:\n1. Einen Gemini API-Schlüssel erstellt haben (keinen allgemeinen Google API-Schlüssel)\n2. Die Gemini API in Google Cloud aktiviert haben\n3. Den Schlüssel korrekt ohne Leerzeichen eingegeben haben</string>
+
+    <!-- Navigation -->
+    <string name="nav_notes">Notizen</string>
+    <string name="nav_savings">Ersparnisse</string>
+    <string name="nav_chart">Diagramm</string>
+    <string name="nav_profile">Profil</string>
+
+    <!-- Profile Page -->
+    <string name="profile_title">Profil &amp; Einstellungen</string>
+    <string name="profile_personal_info">Persönliche Informationen</string>
+    <string name="profile_language">Sprache</string>
+    <string name="profile_accessibility">Barrierefreiheit</string>
+    <string name="profile_appearance">Erscheinungsbild</string>
+    <string name="profile_notifications">Benachrichtigungen</string>
+    <string name="profile_security">Sicherheit</string>
+    <string name="profile_email">E-Mail</string>
+    <string name="profile_signout">Abmelden</string>
+    <string name="content_desc_email">Ihre E-Mail ist %s</string>
+    <string name="content_desc_signout">Von Ihrem Konto abmelden</string>
+    <string name="content_desc_setting_tap">%s, tippen um Einstellungen zu öffnen</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_title">Barrierefreiheit-Einstellungen</string>
+    <string name="talkback_button">TalkBack aktivieren</string>
+    <string name="high_contrast">Hoher Kontrast</string>
+    <string name="high_contrast_desc">Kontrast für bessere Sichtbarkeit erhöhen</string>
+    <string name="large_text">Großer Text</string>
+    <string name="large_text_desc">Textgröße für bessere Lesbarkeit erhöhen</string>
+    <string name="verbose_announcements">Ausführliche Ansagen</string>
+    <string name="content_desc_high_contrast">Hochkontrastmodus ist %s</string>
+    <string name="content_desc_large_text">Großer Textmodus ist %s</string>
+
+    <!-- Languages -->
+    <string name="language_title">Sprache auswählen</string>
+    <string name="language_english">Englisch</string>
+    <string name="language_spanish">Spanisch</string>
+    <string name="language_french">Französisch</string>
+    <string name="language_german">Deutsch</string>
+    <string name="language_hindi">Hindi</string>
+    <string name="language_apply">%s anwenden</string>
+    <string name="content_desc_language_selection">Sprachauswahl, aktuelle Sprache ist %s</string>
+    <string name="content_desc_current_language">Aktuelle Sprache: %s</string>
+    <string name="content_desc_apply_language">Sprachwechsel zu %s anwenden</string>
+
+    <!-- Welcome Page -->
+    <string name="app_title">MoneyMind</string>
+    <string name="app_tagline">Jede Ausgabe, mühelos verwaltet.</string>
+    <string name="app_description">Eine App, die bewusste Verbraucher dabei unterstützt, Ausgaben zu verfolgen, effizient zu sparen und mühelos intelligentere finanzielle Entscheidungen zu treffen.</string>
+    <string name="lets_start">Loslegen</string>
+    <string name="log_in">Anmelden</string>
+
     <!-- Chart Page -->
     <string name="analytics">Análisis</string>
     <string name="previous_month">Mes anterior</string>

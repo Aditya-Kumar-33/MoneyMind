@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">मनी माइंड</string>
-    
+
     <!-- Common Labels -->
     <string name="save">सहेजें</string>
     <string name="cancel">रद्द करें</string>
@@ -14,7 +14,14 @@
     <string name="welcome">स्वागत है</string>
     <string name="email">ईमेल</string>
     <string name="password">पासवर्ड</string>
-    
+    <string name="enabled">सक्रिय</string>
+    <string name="disabled">निष्क्रिय</string>
+    <string name="ok">ठीक है</string>
+    <string name="fullname">पूरा नाम</string>
+    <string name="phone_number">फोन नंबर (वैकल्पिक)</string>
+    <string name="create_account">खाता बनाएं</string>
+    <string name="already_have_account">पहले से ही खाता है?</string>
+
     <!-- Transaction Dialog -->
     <string name="add_transaction">नया लेनदेन जोड़ें</string>
     <string name="transaction_type">लेनदेन प्रकार</string>
@@ -28,13 +35,25 @@
     <string name="select_category">श्रेणी चुनें:</string>
     <string name="description">विवरण (वैकल्पिक)</string>
     <string name="account_id">खाता आईडी (वैकल्पिक)</string>
-    
+
+    <!-- API Key Dialog -->
+    <string name="set_api_key">Gemini API कुंजी सेट करें</string>
+    <string name="api_key_help">व्यक्तिगत AI-संचालित बजट सिफारिशें प्राप्त करने के लिए अपनी Google Gemini API कुंजी दर्ज करें।</string>
+    <string name="api_key_label">Gemini API कुंजी</string>
+    <string name="api_key_placeholder">अपनी Gemini API कुंजी दर्ज करें</string>
+    <string name="hide_api_key">API कुंजी छिपाएं</string>
+    <string name="show_api_key">API कुंजी दिखाएं</string>
+    <string name="api_key_storage_note">आपकी API कुंजी आपके डिवाइस पर स्थानीय रूप से संग्रहीत की जाएगी।</string>
+    <string name="api_key_info">आप Google AI स्टूडियो (ai.google.dev) से Gemini API कुंजी प्राप्त कर सकते हैं।</string>
+    <string name="api_key_prefix_note">सुनिश्चित करें कि आप \'AIza\' उपसर्ग सहित पूरी API कुंजी कॉपी करें।</string>
+    <string name="api_key_troubleshooting">यदि आपको त्रुटियां मिल रही हैं, तो सुनिश्चित करें कि आपने:\n1. Gemini API कुंजी बनाई है (सामान्य Google API कुंजी नहीं)\n2. Google Cloud में Gemini API सक्रिय की है\n3. कुंजी को बिना स्पेस के सही ढंग से दर्ज किया है</string>
+
     <!-- Navigation -->
     <string name="nav_notes">नोट्स</string>
     <string name="nav_savings">बचत</string>
     <string name="nav_chart">चार्ट</string>
     <string name="nav_profile">प्रोफाइल</string>
-    
+
     <!-- Profile Page -->
     <string name="profile_title">प्रोफाइल और सेटिंग्स</string>
     <string name="profile_personal_info">व्यक्तिगत जानकारी</string>
@@ -45,14 +64,21 @@
     <string name="profile_security">सुरक्षा</string>
     <string name="profile_email">ईमेल</string>
     <string name="profile_signout">साइन आउट</string>
-    
+    <string name="content_desc_email">आपका ईमेल %s है</string>
+    <string name="content_desc_signout">अपने खाते से साइन आउट करें</string>
+    <string name="content_desc_setting_tap">%s, सेटिंग्स खोलने के लिए टैप करें</string>
+
     <!-- Accessibility -->
     <string name="accessibility_title">पहुंच सेटिंग्स</string>
     <string name="talkback_button">टॉकबैक सक्रिय करें</string>
     <string name="high_contrast">उच्च कंट्रास्ट</string>
+    <string name="high_contrast_desc">बेहतर दृश्यता के लिए कंट्रास्ट बढ़ाएं</string>
     <string name="large_text">बड़ा टेक्स्ट</string>
+    <string name="large_text_desc">बेहतर पठनीयता के लिए टेक्स्ट आकार बढ़ाएं</string>
     <string name="verbose_announcements">विस्तृत घोषणाएं</string>
-    
+    <string name="content_desc_high_contrast">उच्च कंट्रास्ट मोड %s है</string>
+    <string name="content_desc_large_text">बड़ा टेक्स्ट मोड %s है</string>
+
     <!-- Languages -->
     <string name="language_title">भाषा चुनें</string>
     <string name="language_english">अंग्रेज़ी</string>
@@ -60,19 +86,19 @@
     <string name="language_french">फ्रेंच</string>
     <string name="language_german">जर्मन</string>
     <string name="language_hindi">हिन्दी</string>
+    <string name="language_apply">%s लागू करें</string>
+    <string name="content_desc_language_selection">भाषा चयन, वर्तमान भाषा %s है</string>
+    <string name="content_desc_current_language">वर्तमान भाषा: %s</string>
+    <string name="content_desc_apply_language">भाषा परिवर्तन को %s पर लागू करें</string>
 
-    <!-- Recommendation Dialog -->
-    <string name="recommendation_title">बजट सिफारिशें</string>
-    <string name="close">बंद करें</string>
-    <string name="got_it">समझ गया</string>
-    <string name="no_recommendations">इस समय कोई सिफारिशें उपलब्ध नहीं हैं।</string>
-    <string name="get_budget_recommendations">बजट सिफारिशें प्राप्त करें</string>
-    <string name="update_gemini_api_key">Gemini API कुंजी अपडेट करें</string>
-    <string name="set_gemini_api_key">Gemini API कुंजी सेट करें</string>
-    <string name="using_gemini_ai">व्यक्तिगत सिफारिशों के लिए Gemini AI का उपयोग किया जा रहा है</string>
-    <string name="using_local_recommendations">स्थानीय सिफारिशों का उपयोग किया जा रहा है (कोई Gemini API कुंजी सेट नहीं है)</string>
-    
-    <!-- Chart Page -->
+    <!-- Welcome Page -->
+    <string name="app_title">मनी माइंड</string>
+    <string name="app_tagline">हर खर्च, आसानी से प्रबंधित।</string>
+    <string name="app_description">एक ऐप जो जागरूक खर्च करने वालों को खर्चों को ट्रैक करने, कुशलता से बचत करने और आसानी से स्मार्ट वित्तीय निर्णय लेने में सक्षम बनाता है।</string>
+    <string name="lets_start">शुरू करें</string>
+    <string name="log_in">लॉग इन</string>
+
+    <!-- Chart/Analytics Page -->
     <string name="analytics">विश्लेषण</string>
     <string name="previous_month">पिछला महीना</string>
     <string name="next_month">अगला महीना</string>
@@ -85,4 +111,47 @@
     <string name="total_income">कुल आय</string>
     <string name="no_expense_data_short">कोई व्यय डेटा नहीं</string>
     <string name="no_income_data_short">कोई आय डेटा नहीं</string>
-</resources> 
+    <string name="tab_selected">वर्तमान में चयनित</string>
+    <string name="tab_not_selected">चयनित नहीं</string>
+    <string name="tab_accessibility_label">%s टैब, %s</string>
+    <string name="previous_month_accessibility">%s, वर्तमान में %s दिखा रहा है</string>
+    <string name="next_month_accessibility">%s, वर्तमान में %s दिखा रहा है</string>
+    <string name="enable_talkback_description">नेविगेट करते समय बोली गई प्रतिक्रिया प्राप्त करने के लिए टॉकबैक सक्षम करें</string>
+    <string name="category_accessibility_description">%s: %s, कुल %s का %s</string>
+    <string name="chart_accessibility_description">%s: %s। चार्ट %d श्रेणियां दिखा रहा है।</string>
+    <string name="center_chart_accessibility_description">%s: %s</string>
+
+    <!-- Recommendation Dialog -->
+    <string name="recommendation_title">बजट सिफारिशें</string>
+    <string name="close">बंद करें</string>
+    <string name="got_it">समझ गया</string>
+    <string name="no_recommendations">इस समय कोई सिफारिशें उपलब्ध नहीं हैं।</string>
+    <string name="get_budget_recommendations">बजट सिफारिशें प्राप्त करें</string>
+    <string name="update_gemini_api_key">Gemini API कुंजी अपडेट करें</string>
+    <string name="set_gemini_api_key">Gemini API कुंजी सेट करें</string>
+    <string name="using_gemini_ai">व्यक्तिगत सिफारिशों के लिए Gemini AI का उपयोग किया जा रहा है</string>
+    <string name="using_local_recommendations">स्थानीय सिफारिशों का उपयोग किया जा रहा है (कोई Gemini API कुंजी सेट नहीं है)</string>
+
+    <!-- Accessibility Settings Page -->
+    <string name="talkback_title">टॉकबैक</string>
+    <string name="talkback_description">अपने डिवाइस पर नेविगेट करते समय बोली गई प्रतिक्रिया प्राप्त करने के लिए टॉकबैक सक्षम करें</string>
+    <string name="text_size_title">टेक्स्ट आकार</string>
+    <string name="text_size_a_small">अ</string>
+    <string name="text_size_a_large">अ</string>
+    <string name="text_scale_slider_desc">टेक्स्ट स्केल स्लाइडर, वर्तमान मान %s है</string>
+    <string name="high_contrast_full_desc">बेहतर दृश्यता के लिए टेक्स्ट और UI तत्वों को अधिक कंट्रास्ट के साथ दिखाता है</string>
+    <string name="verbose_announcements_desc">स्क्रीन रीडर का उपयोग करते समय स्क्रीन तत्वों के लिए अधिक विस्तृत विवरण</string>
+    <string name="high_contrast_mode_desc">उच्च कंट्रास्ट मोड %s है</string>
+    <string name="large_text_mode_desc">बड़ा टेक्स्ट मोड %s है</string>
+    <string name="verbose_mode_desc">विस्तृत घोषणाओं का मोड %s है</string>
+
+    <!-- Notes Page -->
+    <string name="please_login_to_view_notes">कृपया अपने नोट्स देखने के लिए लॉगिन करें</string>
+    <string name="login_now">अब लॉगिन करें</string>
+    <string name="add_new_note">नया नोट जोड़ें</string>
+    <string name="enter_note_placeholder">अपना नोट यहाँ दर्ज करें...</string>
+    <string name="notes_heading">नोट्स</string>
+    <string name="add_note">नोट जोड़ें...</string>
+    <string name="no_notes_message">अभी तक कोई नोट नहीं है। अपना पहला नोट जोड़ें!</string>
+    <string name="note_empty_warning">नोट खाली नहीं हो सकता</string>
+</resources>

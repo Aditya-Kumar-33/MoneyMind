@@ -58,7 +58,7 @@ fun BottomNavBar(navController: NavController) {
         containerColor = backgroundColor,
         tonalElevation = 0.dp,
         modifier = Modifier
-            .height(64.dp)
+            .height(80.dp)
             .semantics {
                 contentDescription = "Bottom navigation bar with 4 items"
             },
@@ -110,10 +110,6 @@ fun RowScope.AddItem(
                 contentDescription = label,
                 modifier = Modifier.size(24.dp)
             )
-        },
-        label = { 
-            // Always refetch the string resource to ensure proper language
-            Text(text = stringResource(id = navItem.labelResId)) 
         },
         selected = selected,
         alwaysShowLabel = true,

@@ -1,6 +1,8 @@
 package com.example.moneymind.pages
 
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -30,39 +33,35 @@ import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.moneymind.AuthViewModel
 import com.example.moneymind.NotesViewModel
+import com.example.moneymind.R
 import com.example.moneymind.data.Note
 import com.example.moneymind.utils.accessibilityHeading
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NotesPage(
-    modifier: Modifier = Modifier, 
-    navController: NavController, 
+    modifier: Modifier = Modifier,
+    navController: NavController,
     authViewModel: AuthViewModel,
     notesViewModel: NotesViewModel
 ) {
-    // Get notes for the current user
     val userNotes by notesViewModel.userNotes.observeAsState(emptyList())
     val inputText by notesViewModel.inputText.observeAsState("")
     val errorMessage by notesViewModel.errorMessage.observeAsState()
     val context = LocalContext.current
-    
-    // State for dialog visibility
+
     var showAddNoteDialog by remember { mutableStateOf(false) }
-    // State for dialog text input
     var dialogNoteText by remember { mutableStateOf("") }
-    
-    // Show error message if any
+
     LaunchedEffect(errorMessage) {
         errorMessage?.let {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
             notesViewModel.clearErrorMessage()
         }
     }
-    
-    // Check if user is authenticated
+
     val isAuthenticated = authViewModel.isAuthenticated.value
     if (!isAuthenticated) {
-        // Show login prompt if not authenticated
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -75,15 +74,15 @@ fun NotesPage(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Please Login to View Your Notes",
+                    text = stringResource(R.string.please_login_to_view_notes),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     textAlign = TextAlign.Center
                 )
-                
+
                 Spacer(modifier = Modifier.height(16.dp))
-                
+
                 Button(
                     onClick = { navController.navigate("login") },
                     shape = RoundedCornerShape(8.dp),
@@ -91,17 +90,16 @@ fun NotesPage(
                         containerColor = Color(0xFF7FBB92)
                     )
                 ) {
-                    Text("Login Now")
+                    Text(stringResource(R.string.login_now))
                 }
             }
         }
         return
     }
-    
-    // Add Note Dialog
+
     if (showAddNoteDialog) {
         Dialog(
-            onDismissRequest = { 
+            onDismissRequest = {
                 showAddNoteDialog = false
                 dialogNoteText = ""
             }
@@ -122,18 +120,22 @@ fun NotesPage(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Add New Note",
+                        text = stringResource(R.string.add_new_note),
                         fontWeight = FontWeight.Medium,
                         fontSize = 18.sp,
                         color = Color(0xFF7FBB92),
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
-                    
-                    // Multi-line text field for note input
+
                     TextField(
                         value = dialogNoteText,
                         onValueChange = { dialogNoteText = it },
-                        placeholder = { Text("Enter your note here...", color = Color.Gray) },
+                        placeholder = {
+                            Text(
+                                stringResource(R.string.enter_note_placeholder),
+                                color = Color.Gray
+                            )
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(150.dp)
@@ -151,16 +153,15 @@ fun NotesPage(
                         ),
                         singleLine = false
                     )
-                    
+
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        // Cancel button
                         OutlinedButton(
-                            onClick = { 
+                            onClick = {
                                 showAddNoteDialog = false
                                 dialogNoteText = ""
                             },
@@ -173,18 +174,21 @@ fun NotesPage(
                                 brush = SolidColor(Color(0xFF7FBB92))
                             )
                         ) {
-                            Text("Cancel")
+                            Text(stringResource(R.string.cancel))
                         }
-                        
-                        // Save button
+
                         Button(
-                            onClick = { 
+                            onClick = {
                                 if (dialogNoteText.isNotBlank()) {
                                     notesViewModel.insertNote(dialogNoteText)
                                     dialogNoteText = ""
                                     showAddNoteDialog = false
                                 } else {
-                                    Toast.makeText(context, "Note cannot be empty", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.note_empty_warning),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             },
                             modifier = Modifier.weight(1f),
@@ -193,14 +197,14 @@ fun NotesPage(
                                 containerColor = Color(0xFF7FBB92)
                             )
                         ) {
-                            Text("Save")
+                            Text(stringResource(R.string.save))
                         }
                     }
                 }
             }
         }
     }
-    
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -211,9 +215,8 @@ fun NotesPage(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Header
             Text(
-                text = "NOTES",
+                text = stringResource(R.string.notes_heading),
                 fontWeight = FontWeight.Medium,
                 fontSize = 18.sp,
                 color = Color(0xFF7FBB92),
@@ -225,14 +228,13 @@ fun NotesPage(
                         contentDescription = "Notes heading"
                     }
             )
-            
-            // Add Note Input (now clickable to open dialog)
+
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp)
-                    .clickable { 
-                        showAddNoteDialog = true 
+                    .clickable {
+                        showAddNoteDialog = true
                         dialogNoteText = ""
                     },
                 shape = RoundedCornerShape(8.dp),
@@ -246,7 +248,7 @@ fun NotesPage(
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Add Note...", 
+                        text = stringResource(R.string.add_note),
                         color = Color.Gray,
                         modifier = Modifier.semantics {
                             contentDescription = "Click to add a new note"
@@ -254,8 +256,7 @@ fun NotesPage(
                     )
                 }
             }
-            
-            // Empty state message when no notes
+
             if (userNotes.isEmpty()) {
                 Box(
                     modifier = Modifier
@@ -264,13 +265,12 @@ fun NotesPage(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No notes yet. Add your first note!",
+                        text = stringResource(R.string.no_notes_message),
                         color = Color.Gray,
                         textAlign = TextAlign.Center
                     )
                 }
             } else {
-                // Notes List
                 LazyColumn(
                     modifier = Modifier.weight(1f)
                 ) {
@@ -285,6 +285,7 @@ fun NotesPage(
         }
     }
 }
+
 
 @Composable
 fun NoteItem(

@@ -30,7 +30,7 @@
     <string name="accessibility_loading">Loading, please wait</string>
     <string name="accessibility_login_success">Login successful, welcome</string>
     <string name="accessibility_login_failed">Login failed, please try again</string>
-    <string name="accessibility_transaction_added">Transaction successfully added</string>
-    <string name="accessibility_transaction_updated">Transaction successfully updated</string>
-    <string name="accessibility_transaction_deleted">Transaction deleted</string>
+    <string name="accessibility_transaction_added" translatable="false">Transaction successfully added</string>
+    <string name="accessibility_transaction_updated" translatable="false">Transaction successfully updated</string>
+    <string name="accessibility_transaction_deleted" translatable="false">Transaction deleted</string>
 </resources> 

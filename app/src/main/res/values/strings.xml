@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Money Mind</string>
-    
+
     <!-- Common Labels -->
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
@@ -21,7 +21,7 @@
     <string name="phone_number">Phone Number (Optional)</string>
     <string name="create_account">Create Account</string>
     <string name="already_have_account">Already have an account?</string>
-    
+
     <!-- Transaction Dialog -->
     <string name="add_transaction">Add New Transaction</string>
     <string name="transaction_type">Transaction Type</string>
@@ -35,7 +35,7 @@
     <string name="select_category">Select Category:</string>
     <string name="description">Description (Optional)</string>
     <string name="account_id">Account ID (Optional)</string>
-    
+
     <!-- API Key Dialog -->
     <string name="set_api_key">Set Gemini API Key</string>
     <string name="api_key_help">Enter your Google Gemini API key to get personalized AI-powered budget recommendations.</string>
@@ -47,13 +47,13 @@
     <string name="api_key_info">You can get a Gemini API key from Google AI Studio (ai.google.dev).</string>
     <string name="api_key_prefix_note">Make sure to copy the entire API key including the \'AIza\' prefix.</string>
     <string name="api_key_troubleshooting">If you\'re getting errors, ensure you have:\n1. Created a Gemini API key (not a general Google API key)\n2. Activated the Gemini API in Google Cloud\n3. Entered the key correctly without spaces</string>
-    
+
     <!-- Navigation -->
     <string name="nav_notes">Notes</string>
     <string name="nav_savings">Savings</string>
     <string name="nav_chart">Chart</string>
     <string name="nav_profile">Profile</string>
-    
+
     <!-- Profile Page -->
     <string name="profile_title">Profile &amp; Settings</string>
     <string name="profile_personal_info">Personal Information</string>
@@ -67,7 +67,7 @@
     <string name="content_desc_email">Your email is %s</string>
     <string name="content_desc_signout">Sign out from your account</string>
     <string name="content_desc_setting_tap">%s, tap to open settings</string>
-    
+
     <!-- Accessibility -->
     <string name="accessibility_title">Accessibility Settings</string>
     <string name="talkback_button">Activate TalkBack</string>
@@ -78,7 +78,7 @@
     <string name="verbose_announcements">Verbose Announcements</string>
     <string name="content_desc_high_contrast">High contrast mode is %s</string>
     <string name="content_desc_large_text">Large text mode is %s</string>
-    
+
     <!-- Languages -->
     <string name="language_title">Select Language</string>
     <string name="language_english">English</string>
@@ -90,14 +90,14 @@
     <string name="content_desc_language_selection">Language selection, current language is %s</string>
     <string name="content_desc_current_language">Current language: %s</string>
     <string name="content_desc_apply_language">Apply language change to %s</string>
-    
+
     <!-- Welcome Page -->
     <string name="app_title">MoneyMind</string>
     <string name="app_tagline">Every expense, effortlessly managed.</string>
     <string name="app_description">An app that empowers mindful spenders to track expenses, save efficiently, and make smarter financial decisions effortlessly.</string>
     <string name="lets_start">Let\'s Start</string>
     <string name="log_in">Log In</string>
-    
+
     <!-- Chart/Analytics Page -->
     <string name="analytics">Analytics</string>
     <string name="previous_month">Previous month</string>
@@ -120,7 +120,7 @@
     <string name="category_accessibility_description">%s: %s, %s of total %s</string>
     <string name="chart_accessibility_description">%s: %s. Chart showing %d categories.</string>
     <string name="center_chart_accessibility_description">%s: %s</string>
-    
+
     <!-- Recommendation Dialog -->
     <string name="recommendation_title">Budget Recommendations</string>
     <string name="close">Close</string>
@@ -131,7 +131,7 @@
     <string name="set_gemini_api_key">Set Gemini API Key</string>
     <string name="using_gemini_ai">Using Gemini AI for personalized recommendations</string>
     <string name="using_local_recommendations">Using local recommendations (no Gemini API key set)</string>
-    
+
     <!-- Accessibility Settings Page -->
     <string name="talkback_title">TalkBack</string>
     <string name="talkback_description">Enable TalkBack to get spoken feedback as you navigate your device</string>
@@ -144,4 +144,14 @@
     <string name="high_contrast_mode_desc">High contrast mode is %s</string>
     <string name="large_text_mode_desc">Large text mode is %s</string>
     <string name="verbose_mode_desc">Verbose announcements mode is %s</string>
+
+    <!-- Notes Page -->
+    <string name="please_login_to_view_notes">Please login to view your notes</string>
+    <string name="login_now">Login Now</string>
+    <string name="add_new_note">Add New Note</string>
+    <string name="enter_note_placeholder">Enter your note here...</string>
+    <string name="notes_heading">NOTES</string>
+    <string name="add_note">Add Note...</string>
+    <string name="no_notes_message">No notes yet. Add your first note!</string>
+    <string name="note_empty_warning">Note cannot be empty</string>
 </resources>
